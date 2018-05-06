@@ -17,7 +17,6 @@ def get_event(event_id):
         }
         event = domain.Event(**args)
     except:
-        print ("except")
         abort(404)
 
     result = {
