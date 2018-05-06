@@ -13,4 +13,4 @@ def run(command):
     return check_call(command, shell=True)
 
 
-run('pytest -v tests/unit/')
+run('pytest -v tests/')

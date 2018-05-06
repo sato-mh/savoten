@@ -74,7 +74,7 @@ class TestPeriod:
         attrs = is_within_test_case['attrs']
         expect = is_within_test_case['expect']
         period = domain.Period(attrs['start'], attrs['end'])
-        assert period.is_within() == expect
+        assert period.is_within() is expect
 
 
 def test_init_event_with_correct_args():
