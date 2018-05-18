@@ -4,11 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+filelock = "*"
 
 [dev-packages]
 isort = "*"
 pytest = "*"
 "flake8" = "*"
+pluggy = "*"
+"autopep8" = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.6.5"
