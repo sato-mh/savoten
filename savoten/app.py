@@ -6,6 +6,7 @@ api = Flask(__name__)
 
 events = {}
 
+
 @api.route('/events/<string:event_id>', methods=['GET'])
 def get_event(event_id):
     try:
@@ -22,24 +23,25 @@ def get_event(event_id):
         abort(404)
 
     result = {
-        "result":True,
-        "data":{
-            "event_id":event.id,
-            "event_items":event.items,
-            "period_start":event.period.start,
+        "result": True,
+        "data": {
+            "event_id": event.id,
+            "event_items": event.items,
+            "period_start": event.period.start,
             "period_end": event.period.end,
-            "description":event.description
-            }
+            "description": event.description
         }
+    }
 
     return make_response(jsonify(result))
 
+
 @api.route('/events', methods=['POST'])
 def create_event():
-    
+
     print(events)
     event_id = len(events) + 1
-    start = datetime.datetime.now() 
+    start = datetime.datetime.now()
     end = start + datetime.timedelta(hours=24)
 
     args = {
@@ -49,14 +51,16 @@ def create_event():
         'description': 'description for test'
     }
     event = domain.Event(**args)
-    
+
     events[event_id] = event
 
     return make_response(f"create event{event.__dict__}!", 201)
 
+
 @api.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
+
 
 if __name__ == '__main__':
     api.run(host='0.0.0.0', port=8000)
