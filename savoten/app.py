@@ -4,6 +4,8 @@ from savoten import domain
 
 api = Flask(__name__)
 
+events = {}
+
 @api.route('/events/<string:event_id>', methods=['GET'])
 def get_event(event_id):
     try:
@@ -31,6 +33,26 @@ def get_event(event_id):
         }
 
     return make_response(jsonify(result))
+
+@api.route('/events', methods=['POST'])
+def create_event():
+    
+    print(events)
+    event_id = len(events) + 1
+    start = datetime.datetime.now() 
+    end = start + datetime.timedelta(hours=24)
+
+    args = {
+        'name': event_id,
+        'items': [],
+        'period': domain.Period(start, end),
+        'description': 'description for test'
+    }
+    event = domain.Event(**args)
+    
+    events[event_id] = event
+
+    return make_response(f"create event{event.__dict__}!", 200)
 
 @api.errorhandler(404)
 def not_found(error):
