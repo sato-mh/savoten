@@ -52,7 +52,7 @@ def create_event():
     
     events[event_id] = event
 
-    return make_response(f"create event{event.__dict__}!", 200)
+    return make_response(f"create event{event.__dict__}!", 201)
 
 @api.errorhandler(404)
 def not_found(error):

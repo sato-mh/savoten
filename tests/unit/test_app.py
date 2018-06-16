@@ -31,7 +31,7 @@ def test_get_event(get_event_test_case):
     params=[
         {
             'uri': '/events',
-            'expect': 200
+            'expect': 201
         },
         {
             'uri': '/events/hogehoge',
