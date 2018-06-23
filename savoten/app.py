@@ -54,7 +54,7 @@ def create_event():
 
     events[event_id] = event
 
-    return make_response(f"create event{event.__dict__}!", 201)
+    return make_response(f"create event{vars(event)})!", 201)
 
 
 @api.errorhandler(404)
