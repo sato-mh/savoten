@@ -10,7 +10,11 @@ _dname = os.path.dirname
 
 
 def test_lock():
-    test_file_name = _dname(os.path.abspath(__file__)) + '/data/lock_test'
+    test_file_name = os.path.join(
+        _dname(os.path.abspath(__file__)),
+        'data',
+        'lock_test'
+    )
     actual = lock(test_file_name)
     assert isinstance(actual, FileLock)
 
@@ -22,14 +26,22 @@ def test_unlock():
 
 
 def test_json_read():
-    test_file_name = _dname(os.path.abspath(__file__)) + '/data/json_read'
+    test_file_name = os.path.join(
+        _dname(os.path.abspath(__file__)),
+        'data',
+        'json_read'
+    )
     expect_data = {"hoge": "fuga"}
     actual_data = json_read(filename=test_file_name)
     assert expect_data == actual_data
 
 
 def test_json_write():
-    test_file_name = _dname(os.path.abspath(__file__)) + '/data/json_write'
+    test_file_name = os.path.join(
+        _dname(os.path.abspath(__file__)),
+        'data',
+        'json_write'
+    )
     expect_data = json.dumps({"hoge": "fuga"})
     json_write(filename=test_file_name, data=expect_data)
     actual_data = json_read(filename=test_file_name)
