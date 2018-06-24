@@ -15,13 +15,13 @@ class TestPeriod:
             {
                 'start': NOW,
                 'end': NOW + datetime.timedelta(hours=1)
-                },
+            },
             {
                 'start': NOW - datetime.timedelta(hours=1),
                 'end': NOW
-                }
-            ]
-        )
+            }
+        ]
+    )
     def valid_init_args(self, request):
         return request.param
 
@@ -34,13 +34,13 @@ class TestPeriod:
             {
                 'start': NOW.isoformat(),
                 'end': NOW + datetime.timedelta(hours=1)
-                },
+            },
             {
                 'start': NOW,
                 'end': (NOW + datetime.timedelta(hours=1)).isoformat()
-                },
-            ]
-        )
+            },
+        ]
+    )
     def invalid_init_args(self, request):
         return request.param
 
@@ -55,18 +55,18 @@ class TestPeriod:
                 'attrs': {
                     'start': NOW,
                     'end': NOW + datetime.timedelta(hours=1)
-                    },
-                'expect': True
                 },
+                'expect': True
+            },
             {
                 'attrs': {
                     'start': NOW - datetime.timedelta(hours=1),
                     'end': NOW
-                    },
-                'expect': False
                 },
-            ]
-        )
+                'expect': False
+            },
+        ]
+    )
     def is_within_test_case(sffelf, request):
         return request.param
 
@@ -85,5 +85,5 @@ def test_init_event_with_correct_args():
         'items': [],
         'period': domain.Period(start, end),
         'description': 'description for test'
-        }
+    }
     domain.Event(**args)
