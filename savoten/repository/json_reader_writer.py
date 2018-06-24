@@ -6,6 +6,7 @@ def lock(filename):
 
     return filelock.FileLock(filename + ".lock", timeout=1)
 
+
 def unlock(lock):
 
     if isinstance(lock, filelock.FileLock):
@@ -13,9 +14,10 @@ def unlock(lock):
     else:
         raise TypeError
 
+
 def json_write(filename, data):
 
-    with open(filename, "a") as f:
+    with open(filename, "w") as f:
         json.dump(data, f)
 
 
