@@ -5,31 +5,25 @@ import os
 from filelock import FileLock
 
 _dname = os.path.dirname
-
-
-def setup_function():
-    global _test_read_file_name
-    _test_read_file_name = os.path.join(
-            _dname(os.path.abspath(__file__)),
-            'data',
-            'json_read'
-        )
-    global _test_write_file_name
-    _test_write_file_name = os.path.join(
-            _dname(os.path.abspath(__file__)),
-            'data',
-            'json_write'
-        )
-    global _test_lock_file_name
-    _test_lock_file_name = os.path.join(
+_test_read_file_name = os.path.join(
         _dname(os.path.abspath(__file__)),
         'data',
-        'lock_test'
+        'json_read'
     )
+_test_write_file_name = os.path.join(
+        _dname(os.path.abspath(__file__)),
+        'data',
+        'json_write'
+    )
+_test_lock_file_name = os.path.join(
+    _dname(os.path.abspath(__file__)),
+    'data',
+    'lock_test'
+)
 
 
 def teardown_function():
-    if os.path.exists(_test_lock_file_name):
+    if os.path.exists(_test_lock_file_name + '.lock'):
         os.remove(_test_lock_file_name)
     if os.path.exists(_test_write_file_name):
         os.remove(_test_write_file_name)
