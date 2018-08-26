@@ -16,11 +16,12 @@ class EventItem:
 
     @property
     def candidates(self):
-        return self.items
+        return self._candidates
 
     @candidates.setter
     def candidates(self, candidates):
         if not (isinstance(candidates, list)
                 and all([isinstance(c, Candidate) for c in candidates])):
             raise TypeError('items is required List[Candidate]. not {}.'
-                            .format(list, type(candidates)))
+                            .format(type(candidates)))
+        self._candidates = candidates

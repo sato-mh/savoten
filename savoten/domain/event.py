@@ -18,14 +18,15 @@ class Event:
 
     @property
     def items(self):
-        return self.items
+        return self._items
 
     @items.setter
     def items(self, items):
         if not (isinstance(items, list)
                 and all([isinstance(item, EventItem) for item in items])):
             raise TypeError('items is required List[EventItem]. not {}.'
-                            .format(list, type(items)))
+                            .format(type(items)))
+        self._items = items
 
     def is_within(self):
         return self.period.is_within()
