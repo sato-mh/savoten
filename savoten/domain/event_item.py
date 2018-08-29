@@ -3,10 +3,9 @@ from .candidate import Candidate
 
 class EventItem:
 
-    def __init__(self, event_id, name, candidates, description=None,
+    def __init__(self, name, candidates, description=None,
                  seats=1, max_choice=1, min_choice=1, id=None):
         self.id = id
-        self.event_id = event_id
         self.name = name
         self.candidates = candidates
         self.description = description
