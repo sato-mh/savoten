@@ -7,7 +7,7 @@ user = User('user_name', 'email@test.com', 1)
 candidate = Candidate(user)
 
 
-class TestInitEventItem:
+class TestInit:
 
     @pytest.mark.parametrize('valid_args, expected', [
         ({

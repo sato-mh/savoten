@@ -6,7 +6,7 @@ from tests.util import get_public_vars
 user = User('user_name', 'email@test.com', 1)
 
 
-class TestInitCandidate:
+class TestInit:
 
     @pytest.mark.parametrize('valid_args, expected', [
         ({

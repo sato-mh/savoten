@@ -10,12 +10,13 @@ candidate = Candidate(user)
 event_item = EventItem('event_id_name', [candidate])
 
 now = datetime.datetime.now()
+two_days_ago = now - datetime.timedelta(days=2)
 one_day_ago = now - datetime.timedelta(days=1)
 one_day_later = now + datetime.timedelta(days=1)
 period = Period(one_day_ago, one_day_later)
 
 
-class TestInitEventItem:
+class TestInit:
 
     @pytest.mark.parametrize('valid_args, expected', [
         ({
@@ -75,13 +76,15 @@ class TestInitEventItem:
         with pytest.raises(TypeError):
             EventItem(**invalid_args)
 
+
+class TestIsWithin:
+
     def test_return_true_when_in_the_period(self):
         in_period = period
         event = Event('name', [event_item], in_period)
         assert event.is_within() is True
 
     def test_return_false_when_outside_the_period(self):
-        two_days_ago = now - datetime.timedelta(days=2)
         outside_period = Period(two_days_ago, one_day_ago)
         event = Event('name', [event_item], outside_period)
         assert event.is_within() is False
