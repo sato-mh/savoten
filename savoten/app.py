@@ -1,14 +1,14 @@
 import datetime
-from flask import Flask, jsonify, abort, make_response
+import responder
 from savoten import domain
 
-api = Flask(__name__)
+api = responder.API()
 
 events = {}
 
 
-@api.route('/events/<string:event_id>', methods=['GET'])
-def get_event(event_id):
+@api.route('/events/{event_id}')
+def get_event(req, resp, *, event_id):
     try:
         start = datetime.datetime.now()
         end = start + datetime.timedelta(hours=1)
@@ -20,22 +20,22 @@ def get_event(event_id):
         }
         event = domain.Event(**args)
     except:
-        abort(404)
+        resp.status_code = api.status_codes.HTTP_404
 
     result = {
-        "result": True,
-        "data": {
-            "event_id": event.id,
-            "event_items": event.items,
-            "period_start": event.period.start,
-            "period_end": event.period.end,
-            "description": event.description
+        'result': True,
+        'data': {
+            'event_id': event.id,
+            'event_items': event.items,
+            'period_start': event.period.start,
+            'period_end': event.period.end,
+            'description': event.description
         }
     }
+    resp.media = result
 
-    return make_response(jsonify(result))
 
-
+'''
 @api.route('/events', methods=['POST'])
 def create_event():
 
@@ -54,7 +54,7 @@ def create_event():
 
     events[event_id] = event
 
-    return make_response(f"create event{vars(event)})!", 201)
+    return make_response(f'create event{vars(event)})!', 201)
 
 
 @api.errorhandler(404)
@@ -64,3 +64,4 @@ def not_found(error):
 
 if __name__ == '__main__':
     api.run(host='0.0.0.0', port=8000)
+'''
