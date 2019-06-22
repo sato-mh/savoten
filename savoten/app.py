@@ -1,6 +1,6 @@
 import datetime
 import responder
-from savoten import domain
+import domain
 
 api = responder.API()
 
@@ -9,6 +9,7 @@ events = {}
 
 @api.route('/events/{event_id}')
 def get_event(req, resp, *, event_id):
+    event_id = 
     try:
         start = datetime.datetime.now()
         end = start + datetime.timedelta(hours=1)
@@ -27,13 +28,15 @@ def get_event(req, resp, *, event_id):
         'data': {
             'event_id': event.id,
             'event_items': event.items,
-            'period_start': event.period.start,
-            'period_end': event.period.end,
+            'period_start': event.period.start.strftime('%Y-%m-%d %H:%M:%S'),
+            'period_end': event.period.end.strftime('%Y-%m-%d %H:%M:%S'),
             'description': event.description
         }
     }
     resp.media = result
 
+if __name__ == '__main__':
+    api.run(address='0.0.0.0')
 
 '''
 @api.route('/events', methods=['POST'])
