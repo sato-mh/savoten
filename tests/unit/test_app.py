@@ -15,6 +15,7 @@ from savoten import app
         }
     ]
 )
+
 def get_event_test_case(request):
     return request.param
 
@@ -22,11 +23,11 @@ def get_event_test_case(request):
 def test_get_event(get_event_test_case):
     uri = get_event_test_case['uri']
     expect = get_event_test_case['expect']
-    test_app = app.api.test_client()
-    response = test_app.get(uri)
+    test_app = app.api
+    response = test_app.requests.get(uri)
     assert response.status_code == expect
 
-
+'''
 @pytest.fixture(
     scope='function',
     params=[
@@ -50,3 +51,4 @@ def test_post_event(post_event_test_case):
     test_app = app.api.test_client()
     response = test_app.post(uri)
     assert response.status_code == expect
+'''
