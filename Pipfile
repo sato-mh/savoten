@@ -10,10 +10,10 @@ responder = "*"
 [dev-packages]
 isort = "*"
 pytest = "*"
-pluggy = "*"
-ipython = "*"
 "flake8" = "*"
+pluggy = "*"
 "autopep8" = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.6.5"
