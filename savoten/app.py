@@ -31,26 +31,25 @@ def get_event(req, resp, *, event_id):
             'description': 'description for test'
         }
         event = domain.Event(**args)
+
+        # レスポンス内容を生成
+        result = {
+            'result': True,
+            'data': {
+                'event_id': event.id,
+                'event_name': event.name,
+                'event_items': event.items,
+                'period_start': event.period.start.strftime('%Y-%m-%d %H:%M:%S'),
+                'period_end': event.period.end.strftime('%Y-%m-%d %H:%M:%S'),
+                'description': event.description
+            }
+        }
+        # レスポンス
+        resp.media = result
     except:
         resp.status_code = api.status_codes.HTTP_404
         resp.media = {'result': False,
                       'error': 'Target event_id does not exist'}
-        return
-
-    # レスポンスに使うdictを生成
-    result = {
-        'result': True,
-        'data': {
-            'event_id': event.id,
-            'event_name': event.name,
-            'event_items': event.items,
-            'period_start': event.period.start.strftime('%Y-%m-%d %H:%M:%S'),
-            'period_end': event.period.end.strftime('%Y-%m-%d %H:%M:%S'),
-            'description': event.description
-        }
-    }
-    # レスポンス
-    resp.media = result
 
 
 '''
@@ -76,13 +75,11 @@ class Events():
             }
             event = domain.Event(**args)
             events[event_id] = event
+            resp.status_code = api.status_codes.HTTP_201
+            resp.media = {'result': True}
         except:
             resp.status_code = api.status_codes.HTTP_400
             resp.media = {'result': False, 'error': 'create_event failed.'}
-            return
-
-        resp.status_code = api.status_codes.HTTP_201
-        resp.media = {'result': True}
 
 
 if __name__ == '__main__':
