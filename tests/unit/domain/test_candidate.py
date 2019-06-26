@@ -4,7 +4,7 @@ from savoten.domain import Candidate, User
 from tests.util import get_public_vars
 
 user = User('user_name', 'email@test.com', 1)
-user2 = User('user_name2', 'email2@test.com', 2)
+
 
 class TestInit:
 
@@ -38,13 +38,3 @@ class TestInit:
     def test_raise_type_error_with_invalid_args(self, invalid_args):
         with pytest.raises(TypeError):
             Candidate(**invalid_args)
-
-candidate = Candidate(user, id = 1)
-print(vars(candidate))
-print(candidate.user)
-print("123")
-print(candidate.id)
-candidate.user = user2
-print("hoge")
-print(candidate.user.name)
-print(vars(candidate))
