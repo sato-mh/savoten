@@ -5,13 +5,13 @@ from savoten import app
 @pytest.fixture(
     scope='function',
     params=[
+        # 成功ケース(IDが存在する)
         {
-            # 存在する想定のID
             'uri': '/events/1234',
             'expect': 200
         },
+        # 失敗ケース(IDが存在しない)
         {
-            # 存在しない想定のID
             'uri': '/events/9999',
             'expect': 404
         }
@@ -32,6 +32,7 @@ def test_get_event(get_event_test_case):
 @pytest.fixture(
     scope='function',
     params=[
+        # 成功ケース(validation違反なし)
         {
             'uri': '/events',
             'data': {
@@ -41,6 +42,7 @@ def test_get_event(get_event_test_case):
             },
             'expect': 201
         },
+        # 失敗ケース(nameの値が存在しない)
         {
             'uri': '/events',
             'data': {
