@@ -6,12 +6,7 @@ api = responder.API()
 
 events = {}
 
-'''
-get_event
-GETされたときのuriからevent_idを抽出
-DBに問い合わせ、event.idと対応するeventがあれば返す
-なければ404を返す
-'''
+
 @api.route('/events/{event_id}')
 def get_event(req, resp, *, event_id):
 
@@ -44,7 +39,6 @@ def get_event(req, resp, *, event_id):
                 'description': event.description
             }
         }
-        # レスポンス
         resp.media = result
     except:
         resp.status_code = api.status_codes.HTTP_404
@@ -52,16 +46,12 @@ def get_event(req, resp, *, event_id):
                       'error': 'Target event_id does not exist'}
 
 
-'''
-create_event
-/eventにPOSTされたときのbodyからeventのパラメータを抽出
-既存eventの総数を1インクリメントした値を新しいevent_idとしてセット
-eventsに登録する
-'''
 @api.route('/events')
 class Events():
     async def on_post(self, req, resp):
         try:
+            # stub用にダミーパラメータ生成
+            # requestからnameのみ抽出してevent登録
             request = await req.media()
             event_id = len(events) + 1
             start = datetime.datetime.now()
