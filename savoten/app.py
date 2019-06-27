@@ -9,49 +9,39 @@ events = {}
 
 @api.route('/events/{event_id}')
 def get_event(req, resp, *, event_id):
-
-    # stubの動作
-    # stub応答のためダミーパラメータでeventオブジェクトを生成
-    test_event_id = 1234
+    # stub動作
+    # global変数のeventsに登録のあるeventをidでsearchして結果を返す
+    # 見つからなかったときは200でresult:Falseを返す
     try:
-        if int(event_id) != test_event_id:
-            raise Exception("event_id does not exist.")
-        start = datetime.datetime.now()
-        end = start + datetime.timedelta(hours=1)
-        args = {
-            'id': event_id,
-            'name': 'get_event_stub event_name',
-            'items': [],
-            'period': domain.Period(start, end),
-            'description': 'description for test'
-        }
-        event = domain.Event(**args)
-
-        # レスポンス内容を生成
-        result = {
-            'result': True,
-            'data': {
-                'event_id': event.id,
-                'event_name': event.name,
-                'event_items': event.items,
-                'period_start': event.period.start.strftime('%Y-%m-%d %H:%M:%S'),
-                'period_end': event.period.end.strftime('%Y-%m-%d %H:%M:%S'),
-                'description': event.description
-            }
-        }
+        for event in events:
+            if event.id == event_id:
+                result = {
+                    'result': True,
+                    'data': {
+                        'event_id': event.id,
+                        'event_name': event.name,
+                        'event_items': event.items,
+                        'period_start': event.period.start.strftime('%Y-%m-%d %H:%M:%S'),
+                        'period_end': event.period.end.strftime('%Y-%m-%d %H:%M:%S'),
+                        'description': event.description
+                    }
+                }
+                break
+        else:
+            result = {'result': False}
         resp.media = result
+        return
     except:
-        resp.status_code = api.status_codes.HTTP_404
-        resp.media = {'result': False,
-                      'error': 'Target event_id does not exist'}
+        resp.status_code = api.status_codes.HTTP_500
+        resp.media = {'result': False, 'error': 'get_event error'}
 
 
 @api.route('/events')
 class Events():
     async def on_post(self, req, resp):
         try:
-            # stub用にダミーパラメータ生成
-            # requestからnameのみ抽出してevent登録
+            # stub用にダミーパラメータ生成を
+            # request['name']のみ抽出してglobal変数のeventsにevent登録
             request = await req.media()
             event_id = len(events) + 1
             start = datetime.datetime.now()
