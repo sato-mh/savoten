@@ -4,7 +4,7 @@ from savoten import domain
 
 api = responder.API()
 
-events = {}
+events = []
 
 
 @api.route('/events/{event_id}')
@@ -14,8 +14,8 @@ def get_event(req, resp, *, event_id):
     # 見つからなかったときは200でresult:Falseを返す
     try:
         for event in events:
-            if event.id == event_id:
-                result = {
+            if event.id == int(event_id):
+                body = {
                     'result': True,
                     'data': {
                         'event_id': event.id,
@@ -28,12 +28,14 @@ def get_event(req, resp, *, event_id):
                 }
                 break
         else:
-            result = {'result': False}
-        resp.media = result
-        return
+            body = {'result': False}
+        resp.media = body
     except:
         resp.status_code = api.status_codes.HTTP_500
-        resp.media = {'result': False, 'error': 'get_event error'}
+        resp.media = {
+            'result': False,
+            'error': 'get_event error'
+        }
 
 
 @api.route('/events')
@@ -43,7 +45,7 @@ class Events():
             # stub用にダミーパラメータ生成を
             # request['name']のみ抽出してglobal変数のeventsにevent登録
             request = await req.media()
-            event_id = len(events) + 1
+            event_id = len(events)
             start = datetime.datetime.now()
             end = start + datetime.timedelta(hours=24)
             args = {
@@ -54,7 +56,7 @@ class Events():
                 'description': 'description for test'
             }
             event = domain.Event(**args)
-            events[event_id] = event
+            events.append(event)
             resp.status_code = api.status_codes.HTTP_201
             resp.media = {'result': True}
         except:

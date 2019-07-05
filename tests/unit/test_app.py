@@ -1,32 +1,33 @@
 import pytest
+import json
 from savoten import app
 
 
-@pytest.fixture(
-    scope='function',
-    params=[
-        # 成功ケース(IDが存在する)
-        {
-            'uri': '/events/1234',
-            'expect': 200
-        },
-        # 失敗ケース(IDが存在しない)
-        {
-            'uri': '/events/9999',
-            'expect': 404
-        }
-    ]
-)
-def get_event_test_case(request):
-    return request.param
-
-
-def test_get_event(get_event_test_case):
-    uri = get_event_test_case['uri']
-    expect = get_event_test_case['expect']
+@pytest.fixture(scope='class')
+def test_app():
+    uri = '/events'
+    data = {
+        'name': 'test_event_data',
+        'items': [],
+        'description': 'TestGetEventClass preprocessing data'
+    }
     test_app = app.api
-    response = test_app.requests.get(uri)
-    assert response.status_code == expect
+    response = test_app.requests.post(uri, data)
+    if response.status_code != 201:
+        assert False
+    return test_app
+
+
+@pytest.mark.parametrize('uri, expect_status_code, expect_result', [
+    ('/events/0', 200, True),
+    ('/events/999', 200, False)
+])
+class TestGetEventClass():
+    def test_get_event(self, test_app, uri, expect_status_code, expect_result):
+        response = test_app.requests.get(uri)
+        body = json.loads(response._content)
+        assert (response.status_code == expect_status_code
+                and body['result'] is expect_result)
 
 
 @pytest.fixture(
