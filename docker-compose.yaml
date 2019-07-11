@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    container_name: savoten_app
+    volumes:
+      - "./:/app/savoten"
+    env_file: .env
+    user: ${UID}:${GID}
+    command: tail -f /dev/null
