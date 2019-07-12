@@ -1,14 +1,14 @@
-FROM python:3.6.5-alpine
+FROM python:3.6.5-stretch
 
 ENV PYTHONPATH=/app/savoten/
 
 WORKDIR /app/savoten
 
-RUN apk add --no-cache curl tar
+RUN apt-get update -y -q && apt-get install -y -q curl tar
 
 # fixuid settings
-RUN addgroup -g 1000 docker && \
-    adduser -u 1000 -G docker -h /home/docker -s /bin/sh -D docker
+RUN addgroup --gid 1000 docker && \
+    adduser --uid 1000 --ingroup docker --home /home/docker --shell /bin/sh --disabled-password --gecos "" docker
 
 RUN USER=docker && \
     GROUP=docker && \
