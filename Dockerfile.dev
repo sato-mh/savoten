@@ -1,0 +1,30 @@
+FROM python:3.6.5-stretch
+
+ENV PYTHONPATH=/app/savoten/
+
+WORKDIR /app/savoten
+
+RUN apt-get update -y -q && apt-get install -y -q curl tar
+
+# fixuid settings
+RUN addgroup --gid 1000 docker && \
+    adduser --uid 1000 --ingroup docker --home /home/docker --shell /bin/sh --disabled-password --gecos "" docker
+
+RUN USER=docker && \
+    GROUP=docker && \
+    curl -SsL https://github.com/boxboat/fixuid/releases/download/v0.4/fixuid-0.4-linux-amd64.tar.gz | tar -C /usr/local/bin -xzf - && \
+    chown root:root /usr/local/bin/fixuid && \
+    chmod 4755 /usr/local/bin/fixuid && \
+    mkdir -p /etc/fixuid && \
+    printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
+
+ADD . .
+
+RUN pip install --upgrade pip && \
+    pip install pipenv
+
+USER docker:docker
+    
+RUN pipenv install -d
+
+ENTRYPOINT ["fixuid", "-q"]
