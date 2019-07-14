@@ -46,7 +46,7 @@ def create_event():
         event_id = len(events) + 1
         args['id'] = event_id
 
-        # datetime.datetime Parse
+        # datetime.datetime parse
         start = dateutil.parser.parse(args['start'])
         end = dateutil.parser.parse(args['end'])
         period = domain.Period(start, end)
@@ -61,7 +61,15 @@ def create_event():
         api.logger.error ('create_event fail: %s'% e)
         return('create_event fail.', 400)
 
-    return make_response(f"create event{vars(event)})!", 201)
+    response = {
+        "id": event.id,
+        "name": event.name,
+        "start": event.period.start,
+        "end": event.period.end,
+        "description": event.description         
+    }
+
+    return make_response(jsonify(response), 201)
 
 @api.errorhandler(404)
 def not_found(error):
