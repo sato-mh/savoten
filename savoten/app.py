@@ -46,9 +46,10 @@ def create_event():
         event_id = len(events) + 1
         args['id'] = event_id
 
+        # datetime.datetime Parse
         start = dateutil.parser.parse(args['start'])
         end = dateutil.parser.parse(args['end'])
-        period = domain.Period(start, end),
+        period = domain.Period(start, end)
         args['period'] = period
         del args['start'], args['end']
 
