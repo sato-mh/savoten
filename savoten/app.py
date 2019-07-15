@@ -58,22 +58,28 @@ def create_event():
         event = domain.Event(**args)
         events[event_id] = event
     except Exception as e:
-        api.logger.error ('create_event fail: %s'% e)
-        return('create_event fail.', 400)
+        error_message = 'create_event fail'
+        api.logger.error('%s %s' % (error_message, e))
+        response = {
+            'error_message': error_message
+        }
+        return make_response(jsonify(response), 400)
 
     response = {
-        "id": event.id,
-        "name": event.name,
-        "start": event.period.start,
-        "end": event.period.end,
-        "description": event.description         
+        'id': event.id,
+        'name': event.name,
+        'start': event.period.start,
+        'end': event.period.end,
+        'description': event.description
     }
 
     return make_response(jsonify(response), 201)
 
+
 @api.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
+
 
 if __name__ == '__main__':
     api.run(host='0.0.0.0', port=8000)
