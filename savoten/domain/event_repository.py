@@ -6,9 +6,5 @@ class EventRepository(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def update(self, id, event):
-        pass
-
-    @abstractmethod
     def delete(self, event):
         pass
