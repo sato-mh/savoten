@@ -41,22 +41,36 @@ def get_event(event_id):
 def create_event():
 
     try:
-        args = request.json
+        period_args = {
+            # datetime.datetime parse
+            'start': dateutil.parser.parse(request.json['start']),
+            'end': dateutil.parser.parse(request.json['end']),
+        }
+        period = domain.Period(**period_args)
 
-        event_id = len(events) + 1
-        args['id'] = event_id
+        event_args = {
+            'name': request.json['name'],
+            'period': period,
+        }
+        event_args['id'] = len(events) + 1
+        event_args['items'] = []
 
-        # datetime.datetime parse
-        start = dateutil.parser.parse(args['start'])
-        end = dateutil.parser.parse(args['end'])
-        period = domain.Period(start, end)
-        args['period'] = period
-        del args['start'], args['end']
+        # non-required parameter keys
+        event_option_keys = [
+            'description',
+            'anonymous',
+            'created_at',
+            'updated_at',
+            'deleted_at'
+        ]
+        # set non-required parameter to event_args.
+        for key in event_option_keys:
+            if key in request.json:
+                event_args[key] = request.json[key]
 
-        args['items'] = []
+        event = domain.Event(**event_args)
 
-        event = domain.Event(**args)
-        events[event_id] = event
+        events[event_args['id']] = event
     except Exception as e:
         error_message = 'create_event fail'
         api.logger.error('%s %s' % (error_message, e))
