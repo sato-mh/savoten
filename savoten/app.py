@@ -1,6 +1,6 @@
 import datetime
 import dateutil.parser
-from flask import Flask, jsonify, abort, make_response, request
+from flask import Flask, jsonify, abort, make_response, request, render_template
 from savoten import domain
 
 api = Flask(__name__)
@@ -88,6 +88,11 @@ def create_event():
     }
 
     return make_response(jsonify(response), 201)
+
+
+@api.route('/create_event_page', methods=['GET'])
+def create_event_page():
+    return render_template('create_event_page.html')
 
 
 @api.errorhandler(404)
