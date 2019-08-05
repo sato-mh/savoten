@@ -5,89 +5,83 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create Event</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
   <div class="container">
     <div class="card card-default">
-      <div class="card-heading">
+      <class="card-heading">
         <h1>Create Event</h1>
-      </div>
-      <div class="card-body">
-        <form name="create_event_form">
-          <div class="form-group">
-            <label for="name" class="col-sm-4 control-label">イベント名(name)</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="name" name="name" placeholder="name" value="第43回労働組合選挙"></input>
+        <div class="card-body">
+          <form name="create_event_form">
+            <div class="form-group">
+              <label>イベント名(name)</label>
+              <input type="text" class="form-control" name="name" placeholder="name" value="第43回労働組合選挙">
             </div>
-          </div>
-          <div class="form-group">
-            <label for="start" class="col-sm-4 control-label">開始時刻(start)</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="start" name="start" placeholder="start" value="2019-08-01 01:02:03"></input>
+            <div class="form-group">
+              <label>開始時刻(start)</label>
+              <input type="text" class="form-control" name="start" placeholder="start"
+                value="2019-08-01 01:02:03"></input>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="end" class="col-sm-4 control-label">終了時刻(end)</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="end" name="end" placeholder="end" value="2019-08-02 01:02:03"></input>
+            <div class="form-group">
+              <label>終了時刻(end)</label>
+              <input type="text" class="form-control" name="end" placeholder="end" value="2019-08-02 01:02:03">
             </div>
-          </div>
-          <div class="form-group">
-            <label for="description" class="col-sm-4 control-label">自由記入欄(description[optional])</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="description" placeholder="description(optional)" value="サンプルテキスト">
+            <div class="form-group">
+              <label>自由記入欄(description[optional])</label>
+              <input type="text" class="form-control" name="description" placeholder="description(optional)"
+                value="サンプルテキスト">
             </div>
-          </div>
-          <div class="form-group">
-            <label for="is_anonymous" class="col-sm-4 control-label">匿名投票(is_anonymous)</label>
-            <div class="col-sm-10">
-              <div class="radio">
-                <input type="radio" value="false" name="is_anonymous_false" id="false" checked=""></input>
-                <label for="false">投票者名を記録する(false)[default]</label>
+            <div class="form-group">
+              <label>匿名投票(is_anonymous)</label>
+              <div class="form-radio">
+                <input type="radio" value="false" name="is_anonymous" checked="">
+                <label>投票者名を記録する(false)[default]</label>
               </div>
-              <div class="radio">
-                <input type="radio" value="true" name="is_anonymous_true" id="true"></input>
-                <label for="true">投票者名を匿名扱いにする(true)</label>
+              <div class="form-radio">
+                <input type="radio" value="true" name="is_anonymous">
+                <label>投票者名を匿名扱いにする(true)</label>
               </div>
             </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-10">
-              <button type="button" name="create_event_btn" class="btn btn-primary">Create</button>
+            <div class="form-group">
+              <button type="button" id="create_event_btn" class="btn btn-primary">Create</button>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="InputText"></label>
-            <div class="col-sm-10">
+            <div class="form-group">
               <textarea class="form-control" id="result_area" readonly>event_data</textarea>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
     </div>
   </div>
 </body>
 
 
 <script language="JavaScript">
-  document.create_event_form.create_event_btn.addEventListener('click', function() {
-    requestData=formDataToJson(document.create_event_form)
-    document.getElementById("result_area").value=JSON.stringify(requestData);
+  document.create_event_form.create_event_btn.addEventListener('click', function () {
+    requestData = formDataToJson(document.create_event_form)
+    document.getElementById("result_area").value = JSON.stringify(requestData);
     postJson(requestData);
   }, false);
 
-  var formDataToJson = function(form){
-    formData=$(form).serializeArray();
-    jsonData=parseJson(formData);
+  // 各フォームのnameをkey, 入力値をⅴalueとしてjson形式で取得
+  var formDataToJson = function (form) {
+    formData = $(form).serializeArray();
+    jsonData = parseJson(formData);
     return jsonData
   }
 
-  var parseJson = function(data){
+  var parseJson = function (data) {
     var returnJson = {};
     for (idx = 0; idx < data.length; idx++) {
       returnJson[data[idx].name] = data[idx].value
@@ -95,22 +89,24 @@
     return returnJson;
   }
 
-  var postJson = function(data){$.ajax({
-    type : 'post',
-    url  : 'http://127.0.0.1:8000/events',
-    data: JSON.stringify(data),
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function(json_data) {
+  var postJson = function (data) {
+    $.ajax({
+      type: 'post',
+      url: 'http://127.0.0.1:8000/events',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function (json_data) {
         return;
-    },
-    error: function() {
+      },
+      error: function () {
         alert('Server Error. Please try again later.');
-    },
-    complete: function() {
-    }
+      },
+      complete: function () {
+      }
     });
   }
 
 </script>
+
 </html>
