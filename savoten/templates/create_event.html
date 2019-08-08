@@ -25,9 +25,8 @@
       <class="card-heading">
         <h1>Create Event</h1>
         <div class="card-body">
-          <form name="create_event_form">
+          <form name="create_event_form" id="create_event_form">
             <div class="form-group">
-              <label>イベント名(name)</label>
               <input type="text" class="form-control col-md-6" name="name" placeholder="name" value="第43回労働組合選挙">
             </div>
             <div class="form-group">
@@ -41,13 +40,14 @@
             <div class="form-group">
               <label>自由記入欄(description[optional])</label>
               <input type="text" class="form-control col-md-6" name="description" placeholder="description(optional)"
-                value="サンプルテキスト">
+              value="サンプルテキスト">
             </div>
             <div class="form-group">
               <label>匿名投票(is_anonymous)</label>
               <div class="form-radio">
                 <input type="radio" value="false" name="is_anonymous" checked="">
                 <label>投票者名を記録する(false)[default]</label>
+                <label>イベント名(name)</label>
               </div>
               <div class="form-radio">
                 <input type="radio" value="true" name="is_anonymous">
@@ -57,54 +57,11 @@
             <div class="form-group">
               <button type="button" id="create_event_btn" class="btn btn-primary">Create</button>
             </div>
-            <div class="form-group">
-              <textarea class="form-control col-md-12 col-lg-6" id="result_area" rows="3" readonly>event_data</textarea>
-            </div>
           </form>
         </div>
     </div>
   </div>
+  <script src="/static/js/create_event.js"></script>
 </body>
-
-
-<script language="JavaScript">
-  document.create_event_form.create_event_btn.addEventListener('click', function () {
-    requestData = formDataToJson(document.create_event_form)
-    document.getElementById("result_area").value = JSON.stringify(requestData);
-    postJson(requestData);
-  }, false);
-
-  // 各フォームのnameをkey, 入力値をⅴalueとしてjson形式で取得
-  var formDataToJson = function (form) {
-    formData = $(form).serializeArray();
-    jsonData = parseJson(formData);
-    return jsonData
-  }
-
-  var parseJson = function (data) {
-    var returnJson = {};
-    for (idx = 0; idx < data.length; idx++) {
-      returnJson[data[idx].name] = data[idx].value
-    }
-    return returnJson;
-  }
-
-  var postJson = function (data) {$.ajax({
-    type: 'post',
-    url: 'http://127.0.0.1:8000/events',
-    data: JSON.stringify(data),
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function (json_data) {
-      return;
-    },
-    error: function () {
-      alert('Server Error. Please try again later.');
-    },
-    complete: function () {
-    }
-  });}
-
-</script>
 
 </html>
