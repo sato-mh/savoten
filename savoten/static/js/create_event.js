@@ -1,6 +1,6 @@
-var create_event_btn = document.getElementById("create_event_btn")
+var create_event_btn = document.getElementById('create_event_btn')
   create_event_btn.addEventListener('click', function () {
-    requestData = formDataToJson(document.forms["create_event_form"])
+    requestData = formDataToJson(document.forms['create_event_form'])
     postJson(requestData);
 }, false);
 
@@ -42,7 +42,5 @@ var postJson = function (data) {
     } else {
       alert(xhr.status + ' ' + errorThrown + ': Internal server error. Please contact server administrator.');
     }
-  })
-  .always(function () {
   })
 }
