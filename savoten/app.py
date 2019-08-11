@@ -5,36 +5,34 @@ from savoten import domain
 
 api = Flask(__name__)
 
-events = {}
+events = []
 
 
 @api.route('/events/<string:event_id>', methods=['GET'])
 def get_event(event_id):
     try:
-        start = datetime.datetime.now()
-        end = start + datetime.timedelta(hours=1)
-        args = {
-            'name': event_id,
-            'items': [],
-            'period': domain.Period(start, end),
-            'description': 'description for test'
+        for event in events:
+            if event.id == int(event_id):
+                response = {
+                    'result': True,
+                    'data': {
+                        'id': event.id,
+                        'name': event.name,
+                        'start': event.period.start,
+                        'end': event.period.end,
+                        'description': event.description
+                    }
+                }
+                return make_response(jsonify(response), 200)
+        # if event is not found, return status_code:200 and result:False.
+        return make_response(jsonify({'result': False}), 200)
+    except Exception as e:
+        error_message = 'get_event fail'
+        api.logger.error('%s %s' % (error_message, e))
+        response = {
+            'error_message': error_message
         }
-        event = domain.Event(**args)
-    except:
-        abort(404)
-
-    result = {
-        "result": True,
-        "data": {
-            "event_id": event.id,
-            "event_items": event.items,
-            "period_start": event.period.start,
-            "period_end": event.period.end,
-            "description": event.description
-        }
-    }
-
-    return make_response(jsonify(result))
+        return make_response(jsonify(response), 400)
 
 
 @api.route('/events', methods=['POST'])
@@ -70,7 +68,7 @@ def create_event():
 
         event = domain.Event(**event_args)
 
-        events[event_args['id']] = event
+        events.append(event)
     except Exception as e:
         error_message = 'create_event fail'
         api.logger.error('%s %s' % (error_message, e))
@@ -89,9 +87,11 @@ def create_event():
 
     return make_response(jsonify(response), 201)
 
+
 @api.route('/create_event', methods=['GET'])
 def create_event_page():
     return render_template('create_event.html')
+
 
 @api.errorhandler(404)
 def not_found(error):
