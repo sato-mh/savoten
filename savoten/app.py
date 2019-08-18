@@ -1,5 +1,6 @@
 import datetime
-from flask import Flask, jsonify, abort, make_response
+import dateutil.parser
+from flask import Flask, jsonify, abort, make_response, request
 from savoten import domain
 
 api = Flask(__name__)
@@ -39,22 +40,54 @@ def get_event(event_id):
 @api.route('/events', methods=['POST'])
 def create_event():
 
-    print(events)
-    event_id = len(events) + 1
-    start = datetime.datetime.now()
-    end = start + datetime.timedelta(hours=24)
+    try:
+        period_args = {
+            # datetime.datetime parse
+            'start': dateutil.parser.parse(request.json['start']),
+            'end': dateutil.parser.parse(request.json['end']),
+        }
+        period = domain.Period(**period_args)
 
-    args = {
-        'name': event_id,
-        'items': [],
-        'period': domain.Period(start, end),
-        'description': 'description for test'
+        event_args = {
+            'name': request.json['name'],
+            'period': period,
+        }
+        event_args['id'] = len(events) + 1
+        event_args['items'] = []
+
+        # non-required parameter keys
+        event_option_keys = [
+            'description',
+            'anonymous',
+            'created_at',
+            'updated_at',
+            'deleted_at'
+        ]
+        # set non-required parameter to event_args.
+        for key in event_option_keys:
+            if key in request.json:
+                event_args[key] = request.json[key]
+
+        event = domain.Event(**event_args)
+
+        events[event_args['id']] = event
+    except Exception as e:
+        error_message = 'create_event fail'
+        api.logger.error('%s %s' % (error_message, e))
+        response = {
+            'error_message': error_message
+        }
+        return make_response(jsonify(response), 400)
+
+    response = {
+        'id': event.id,
+        'name': event.name,
+        'start': event.period.start,
+        'end': event.period.end,
+        'description': event.description
     }
-    event = domain.Event(**args)
 
-    events[event_id] = event
-
-    return make_response(f"create event{vars(event)})!", 201)
+    return make_response(jsonify(response), 201)
 
 
 @api.errorhandler(404)
