@@ -12,15 +12,15 @@ const setPostJsonEventToCreateEventButton = () => {
 
 const formDataToJson = form => {
   const formData = $(form).serializeArray();
-  const jsonData = parseJson(formData);
+  const jsonData = parseFormNameAndValueToJson(formData);
   return jsonData;
 };
 
-const parseJson = data => {
+const parseFormNameAndValueToJson = formData => {
   const returnJson = {};
-  for (let i = 0; i < data.length; i++) {
-    returnJson[data[i].name] = data[i].value;
-  }
+  formData.forEach(target => {
+    returnJson[target.name] = target.value;
+  });
   return returnJson;
 };
 
