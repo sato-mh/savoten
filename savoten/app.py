@@ -37,9 +37,8 @@ def get_event(event_id):
     return make_response(jsonify(result))
 
 
-@api.route('/events', methods=['POST'])
+@api.route('/api/v1/events', methods=['POST'])
 def create_event():
-
     try:
         period_args = {
             # datetime.datetime parse
@@ -90,9 +89,9 @@ def create_event():
     return make_response(jsonify(response), 201)
 
 
-@api.route('/create_event_page', methods=['GET'])
+@api.route('/create_event', methods=['GET'])
 def create_event_page():
-    return render_template('create_event_page.html')
+    return render_template('create_event.html')
 
 
 @api.errorhandler(404)

@@ -22,8 +22,8 @@ const parseJson = (data) => {
 
 const postJson = (jsonData) => {
   $.post({
-    type: 'post',
-    url: '/events',
+    type: "post",
+    url: "/api/v1/events",
     data: JSON.stringify(jsonData),
     contentType: 'application/json',
   }).then((responseData) => {
