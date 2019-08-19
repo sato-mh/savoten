@@ -32,7 +32,7 @@ const postJson = jsonData => {
     contentType: "application/json"
   }).then(
     responseData => {
-      alert("Create event success!! [event_id: " + responseData["id"] + "]");
+      alert(`Create event success!! [event_id: ${responseData["id"]}]`);
       console.log(responseData);
       return;
     },
@@ -44,10 +44,7 @@ const postJson = jsonData => {
         console.log(e);
       }
       alert(
-        xhr.status +
-          " " +
-          errorThrown +
-          ": Server error. Please contact server administrator."
+        `${xhr.status} ${errorThrown} : Server error. Please contact server administrator.`
       );
     }
   );
