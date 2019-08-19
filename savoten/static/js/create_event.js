@@ -1,6 +1,6 @@
 const setPostJsonEventToCreateEventButton = () => {
-  const create_event_button = document.getElementById("create_event_button");
-  create_event_button.addEventListener(
+  const createEventButton = document.getElementById("create_event_button");
+  createEventButton.addEventListener(
     "click",
     () => {
       const requestData = formDataToJson(document.forms["create_event_form"]);
@@ -53,4 +53,4 @@ const postJson = jsonData => {
   );
 };
 
-setPostJsonEventToCreateEventbutton();
+setPostJsonEventToCreateEventButton();
