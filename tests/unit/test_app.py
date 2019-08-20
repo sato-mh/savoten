@@ -22,7 +22,7 @@ def test_app():
     ('/api/v1/events/1', 200),
     ('/api/v1/events/999', 404)
 ])
-class TestFindEventByIdClass():
+class TestFindEventById():
     def test_find_event_by_id(self, test_app, uri, expect_status_code):
         response = test_app.get(uri)
         assert (response.status_code == expect_status_code)
