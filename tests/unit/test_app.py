@@ -36,7 +36,7 @@ class TestGetEventClass():
     params=[
         {
             # success case
-            'uri': '/events',
+            'uri': '/api/v1/events',
             'post_params': {
                 "name": "test_name",
                 "start": "2019-08-01 01:02:03.123456",
@@ -47,7 +47,7 @@ class TestGetEventClass():
         },
         {
             # fail case (missing post_params['name'])
-            'uri': '/events',
+            'uri': '/api/v1/events',
             'post_params': {
                 "start": "2019-08-01 01:02:03.123456",
                 "end": "2019-08-02 01:02:03.123456",
@@ -57,14 +57,14 @@ class TestGetEventClass():
         }
     ]
 )
-def post_event_test_case(request):
+def create_event_test_case(request):
     return request.param
 
 
-def test_post_event(post_event_test_case):
-    uri = post_event_test_case['uri']
-    expect = post_event_test_case['expect']
-    post_params = post_event_test_case['post_params']
+def test_create_event(create_event_test_case):
+    uri = create_event_test_case['uri']
+    expect = create_event_test_case['expect']
+    post_params = create_event_test_case['post_params']
     test_app = app.api.test_client()
     response = test_app.post(uri, data=json.dumps(
         post_params), content_type='application/json')
