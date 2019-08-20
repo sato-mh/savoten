@@ -5,7 +5,7 @@ from savoten import app
 
 @pytest.fixture(scope='class')
 def test_app():
-    uri = '/events'
+    uri = '/api/v1/events'
     post_params = {
         "name": "test_name",
         "start": "2019-08-01 01:02:03.123456",
@@ -21,8 +21,8 @@ def test_app():
 
 
 @pytest.mark.parametrize('uri, expect_status_code, expect_result', [
-    ('/events/1', 200, True),
-    ('/events/999', 200, False)
+    ('/api/v1/events/1', 200, True),
+    ('/api/v1/events/999', 200, False)
 ])
 class TestGetEventClass():
     def test_get_event(self, test_app, uri, expect_status_code, expect_result):

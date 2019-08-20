@@ -8,7 +8,7 @@ api = Flask(__name__)
 events = []
 
 
-@api.route('/events/<string:event_id>', methods=['GET'])
+@api.route('/api/v1/events/<string:event_id>', methods=['GET'])
 def get_event(event_id):
     try:
         for event in events:
