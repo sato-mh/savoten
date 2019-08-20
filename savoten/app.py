@@ -9,7 +9,7 @@ events = []
 
 
 @api.route('/api/v1/events/<string:event_id>', methods=['GET'])
-def get_event(event_id):
+def find_event_by_id(event_id):
     try:
         for event in events:
             if event.id == int(event_id):

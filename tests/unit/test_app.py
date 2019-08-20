@@ -24,8 +24,8 @@ def test_app():
     ('/api/v1/events/1', 200, True),
     ('/api/v1/events/999', 200, False)
 ])
-class TestGetEventClass():
-    def test_get_event(self, test_app, uri, expect_status_code, expect_result):
+class TestFindEventByIdClass():
+    def test_find_event_by_id(self, test_app, uri, expect_status_code, expect_result):
         response = test_app.get(uri)
         assert (response.status_code == expect_status_code
                 and response.json['result'] is expect_result)
