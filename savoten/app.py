@@ -14,7 +14,6 @@ def find_event_by_id(event_id):
         for event in events:
             if event.id == int(event_id):
                 response = {
-                    'result': True,
                     'data': {
                         'id': event.id,
                         'name': event.name,
@@ -25,14 +24,14 @@ def find_event_by_id(event_id):
                 }
                 return make_response(jsonify(response), 200)
         # if event is not found, return status_code:200 and result:False.
-        return make_response(jsonify({'result': False}), 200)
+        return make_response(jsonify({'data': {}}), 404)
     except Exception as e:
         error_message = 'get_event fail'
         api.logger.error('%s %s' % (error_message, e))
         response = {
             'error_message': error_message
         }
-        return make_response(jsonify(response), 400)
+        return make_response(jsonify(response), 500)
 
 
 @api.route('/api/v1/events', methods=['POST'])

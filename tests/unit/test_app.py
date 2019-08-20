@@ -15,20 +15,17 @@ def test_app():
     test_app = app.api.test_client()
     response = test_app.post(uri, data=json.dumps(
         post_params), content_type='application/json')
-    if response.status_code != 201:
-        assert False
     return test_app
 
 
-@pytest.mark.parametrize('uri, expect_status_code, expect_result', [
-    ('/api/v1/events/1', 200, True),
-    ('/api/v1/events/999', 200, False)
+@pytest.mark.parametrize('uri, expect_status_code', [
+    ('/api/v1/events/1', 200),
+    ('/api/v1/events/999', 404)
 ])
 class TestFindEventByIdClass():
-    def test_find_event_by_id(self, test_app, uri, expect_status_code, expect_result):
+    def test_find_event_by_id(self, test_app, uri, expect_status_code):
         response = test_app.get(uri)
-        assert (response.status_code == expect_status_code
-                and response.json['result'] is expect_result)
+        assert (response.status_code == expect_status_code)
 
 
 @pytest.fixture(
