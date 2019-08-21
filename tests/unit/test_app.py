@@ -4,10 +4,25 @@ import pytest
 from savoten import app, domain
 
 
-@pytest.mark.parametrize('uri, expect_status_code', [
-    ('/api/v1/events/1', 200),
-    ('/api/v1/events/999', 404)
-])
+@pytest.fixture(
+    scope='function',
+    params=[
+        {
+            # success case
+            'uri': '/api/v1/events/1',
+            'expect': 200
+        },
+        {
+            # fail case (Target ID does not exist.)
+            'uri': '/api/v1/events/999',
+            'expect': 404
+        }
+    ]
+)
+def find_event_by_id_test_case(request):
+    return request.param
+
+
 class TestFindEventById():
     def setup_class(self):
         uri = '/api/v1/events'
@@ -31,7 +46,9 @@ class TestFindEventById():
     def teardown_class(self):
         app.events.clear()
 
-    def test_find_event_by_id(self, uri, expect_status_code):
+    def test_find_event_by_id(self, find_event_by_id_test_case):
+        uri = find_event_by_id_test_case['uri']
+        expect_status_code = find_event_by_id_test_case['expect']
         test_app = app.api.test_client()
         response = test_app.get(uri)
         assert (response.status_code == expect_status_code)
