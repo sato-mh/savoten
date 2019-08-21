@@ -17,9 +17,14 @@ def find_event_by_id(event_id):
                     'data': {
                         'id': event.id,
                         'name': event.name,
+                        'items': event.items,
                         'start': event.period.start,
                         'end': event.period.end,
-                        'description': event.description
+                        'description': event.description,
+                        'anonymous': event.anonymous,
+                        'created_at': event.created_at,
+                        'updated_at': event.updated_at,
+                        'deleted_at': event.deleted_at
                     }
                 }
                 return make_response(jsonify(response), 200)
