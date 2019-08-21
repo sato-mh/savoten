@@ -23,7 +23,7 @@ def find_event_by_id_test_case(request):
     return request.param
 
 
-class TestFindEventById():
+class TestFindEventById:
     def setup_class(self):
         uri = '/api/v1/events'
         start = datetime.datetime.now()
