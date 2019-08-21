@@ -1,21 +1,7 @@
+import datetime
 import json
 import pytest
-from savoten import app
-
-
-@pytest.fixture(scope='class')
-def test_app():
-    uri = '/api/v1/events'
-    post_params = {
-        "name": "test_name",
-        "start": "2019-08-01 01:02:03.123456",
-        "end": "2020-08-01 01:02:03.123456",
-        "description": "test_desc"
-    }
-    test_app = app.api.test_client()
-    response = test_app.post(uri, data=json.dumps(
-        post_params), content_type='application/json')
-    return test_app
+from savoten import app, domain
 
 
 @pytest.mark.parametrize('uri, expect_status_code', [
@@ -23,7 +9,30 @@ def test_app():
     ('/api/v1/events/999', 404)
 ])
 class TestFindEventById():
-    def test_find_event_by_id(self, test_app, uri, expect_status_code):
+    def setup_class(self):
+        uri = '/api/v1/events'
+        start = datetime.datetime.now()
+        end = start + datetime.timedelta(hours=1)
+        period_args = {
+            "start": start,
+            "end": end
+        }
+        period = domain.Period(**period_args)
+        event_args = {
+            "id": 1,
+            "name": "test_name",
+            "period": period,
+            "description": "test_desc",
+            "items": []
+        }
+        event = domain.Event(**event_args)
+        app.events.append(event)
+
+    def teardown_class(self):
+        app.events.clear()
+
+    def test_find_event_by_id(self, uri, expect_status_code):
+        test_app = app.api.test_client()
         response = test_app.get(uri)
         assert (response.status_code == expect_status_code)
 
