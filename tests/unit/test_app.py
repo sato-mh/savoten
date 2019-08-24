@@ -18,7 +18,6 @@ def get_events_test_case(request):
 class TestGetEvents:
 
     def setup_class(self):
-        uri = '/api/v1/events'
         start = datetime.datetime.now()
         end = start + datetime.timedelta(hours=1)
         period_args = {'start': start, 'end': end}
@@ -65,7 +64,6 @@ def find_event_by_id_test_case(request):
 class TestFindEventById:
 
     def setup_class(self):
-        uri = '/api/v1/events'
         start = datetime.datetime.now()
         end = start + datetime.timedelta(hours=1)
         period_args = {'start': start, 'end': end}
