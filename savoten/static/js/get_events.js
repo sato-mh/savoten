@@ -1,23 +1,23 @@
 const displayEventsTable = () => {
   $.getJSON({
-    url: '/api/v1/events'
+    url: "/api/v1/events"
   }).then(
     (data, status, xhr) => {
-      const events = data['events'];
+      const events = data["events"];
       if (events.length == 0) {
-        alert("Event does not exist.")
-        return
+        alert("Event does not exist.");
+        return;
       }
       // テーブルの項目行のデータ
-      const dataKeys = ['id', 'name', 'description'];
-      const tableId = 'table'
+      const dataKeys = ["id", "name", "description"];
+      const tableId = "table";
       makeTable(events, dataKeys, tableId);
     },
     (xhr, textStatus, errorThrown) => {
       showRequestError(xhr, textStatus, errorThrown);
     }
   );
-}
+};
 
 const makeTable = (data, dataKeys, tableId) => {
   const table = document.getElementById(tableId);
@@ -36,20 +36,30 @@ const makeTable = (data, dataKeys, tableId) => {
       cell.appendChild(document.createTextNode(data[i][dataKeys[j]]));
     }
   }
-}
+};
 
 const showRequestError = (xhr, textStatus, errorThrown) => {
   try {
     const responseData = $.parseJSON(xhr.responseText);
-    console.log(responseData)
+    console.log(responseData);
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
   if (Number(xhr.status) < 500) {
-    alert(xhr.status + ' ' + errorThrown + ': Invalid Request. Please check input value.');
+    alert(
+      xhr.status +
+        " " +
+        errorThrown +
+        ": Invalid Request. Please check input value."
+    );
   } else {
-    alert(xhr.status + ' ' + errorThrown + ': Internal server error. Please contact server administrator.');
+    alert(
+      xhr.status +
+        " " +
+        errorThrown +
+        ": Internal server error. Please contact server administrator."
+    );
   }
-}
+};
 
-window.addEventListener('load', displayEventsTable);
+window.addEventListener("load", displayEventsTable);
