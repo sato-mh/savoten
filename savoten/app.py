@@ -77,7 +77,8 @@ def create_event():
 
         # non-required parameter keys
         event_option_keys = [
-            'description', 'anonymous', 'created_at', 'updated_at', 'deleted_at'
+            'description', 'anonymous', 'created_at', 'updated_at',
+            'deleted_at'
         ]
         # set non-required parameter to event_args.
         for key in event_option_keys:

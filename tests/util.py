@@ -2,7 +2,6 @@ import inspect
 
 
 def get_public_vars(obj):
-
     def is_variable(obj_):
         return not hasattr(obj_, '__call__')
 

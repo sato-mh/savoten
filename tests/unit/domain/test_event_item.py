@@ -8,7 +8,6 @@ candidate = Candidate(user)
 
 
 class TestInit:
-
     @pytest.mark.parametrize('valid_args, expected',
                              [({
                                  'name': 'name',

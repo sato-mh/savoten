@@ -11,7 +11,6 @@ two_days_later = now + datetime.timedelta(days=2)
 
 
 class TestInit:
-
     @pytest.mark.parametrize('valid_args', [{
         'start': now,
         'end': one_day_later
@@ -38,7 +37,6 @@ class TestInit:
 
 
 class TestIsWithin:
-
     @pytest.mark.parametrize('context', [{'start': now, 'end': one_day_later}])
     def test_return_true_when_in_the_period(self, context):
         in_period = Period(context['start'], context['end'])

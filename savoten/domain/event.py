@@ -3,7 +3,6 @@ from .period import Period
 
 
 class Event:
-
     def __init__(self,
                  name,
                  items,
@@ -30,10 +29,11 @@ class Event:
 
     @items.setter
     def items(self, items):
-        if not (isinstance(items, list) and
-                all([isinstance(item, EventItem) for item in items])):
-            raise TypeError('items is required List[EventItem]. not {}.'.format(
-                type(items)))
+        if not (isinstance(items, list)
+                and all([isinstance(item, EventItem) for item in items])):
+            raise TypeError(
+                'items is required List[EventItem]. not {}.'.format(
+                    type(items)))
         self._items = items
 
     @property

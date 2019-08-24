@@ -17,43 +17,43 @@ period = Period(one_day_ago, one_day_later)
 
 
 class TestInit:
-
-    @pytest.mark.parametrize('valid_args, expected', [({
-        'id': 1,
-        'name': 'name',
-        'items': [event_item],
-        'period': period,
-        'description': 'description',
-        'anonymous': True,
-        'created_at': now,
-        'updated_at': one_day_later,
-        'deleted_at': one_day_later,
-    }, {
-        'id': 1,
-        'name': 'name',
-        'period': period,
-        'items': [event_item],
-        'description': 'description',
-        'anonymous': True,
-        'created_at': now,
-        'updated_at': one_day_later,
-        'deleted_at': one_day_later,
-    }),
-                                                      ({
-                                                          'name': 'name',
-                                                          'items': [event_item],
-                                                          'period': period,
-                                                      }, {
-                                                          'id': None,
-                                                          'name': 'name',
-                                                          'items': [event_item],
-                                                          'period': period,
-                                                          'description': None,
-                                                          'anonymous': False,
-                                                          'created_at': None,
-                                                          'updated_at': None,
-                                                          'deleted_at': None,
-                                                      })])
+    @pytest.mark.parametrize('valid_args, expected',
+                             [({
+                                 'id': 1,
+                                 'name': 'name',
+                                 'items': [event_item],
+                                 'period': period,
+                                 'description': 'description',
+                                 'anonymous': True,
+                                 'created_at': now,
+                                 'updated_at': one_day_later,
+                                 'deleted_at': one_day_later,
+                             }, {
+                                 'id': 1,
+                                 'name': 'name',
+                                 'period': period,
+                                 'items': [event_item],
+                                 'description': 'description',
+                                 'anonymous': True,
+                                 'created_at': now,
+                                 'updated_at': one_day_later,
+                                 'deleted_at': one_day_later,
+                             }),
+                              ({
+                                  'name': 'name',
+                                  'items': [event_item],
+                                  'period': period,
+                              }, {
+                                  'id': None,
+                                  'name': 'name',
+                                  'items': [event_item],
+                                  'period': period,
+                                  'description': None,
+                                  'anonymous': False,
+                                  'created_at': None,
+                                  'updated_at': None,
+                                  'deleted_at': None,
+                              })])
     def test_succeeds_initialization_with_valid_args(self, valid_args,
                                                      expected):
         event = Event(**valid_args)
@@ -72,7 +72,6 @@ class TestInit:
 
 
 class TestIsWithin:
-
     def test_return_true_when_in_the_period(self):
         in_period = period
         event = Event('name', [event_item], in_period)
