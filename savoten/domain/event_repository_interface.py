@@ -1,20 +1,20 @@
 from abc import ABC, abstractmethod
 
 
-class EventRepository(ABC):
+class EventRepositoryInterface(ABC):
 
     @abstractmethod
     def save(self, event):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def delete(self, event):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def find_by_id(self, id):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def find_all(self):
-        pass
+        raise NotImplementedError
