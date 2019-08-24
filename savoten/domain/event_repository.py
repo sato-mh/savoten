@@ -10,9 +10,9 @@ class EventRepository(ABC):
         pass
 
     @abstractmethod
-    def findById(self, id):
+    def find_by_id(self, id):
         pass
 
     @abstractmethod
-    def findAll(self):
+    def find_all(self):
         pass
