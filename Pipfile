@@ -20,6 +20,7 @@ yapf = "*"
 python_version = "3.7.4"
 
 [scripts]
+app = "bash -c 'PYTHONPATH=./ python savoten/app.py'"
 test = "bash -c 'PYTHONPATH=./ pytest tests'"
 lint = "flake8"
 format = "bash -c 'yapf -r -i --exclude .git . && isort -rc -y'"
