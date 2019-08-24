@@ -1,31 +1,27 @@
 import datetime
 import json
+
 import pytest
+
 from savoten import app, domain
 
 
-@pytest.fixture(
-    scope='function',
-    params=[
-        {
-            'uri': '/api/v1/events',
-            'expect': 200
-        }
-    ]
-)
+@pytest.fixture(scope='function',
+                params=[{
+                    'uri': '/api/v1/events',
+                    'expect': 200
+                }])
 def get_events_test_case(request):
     return request.param
 
 
 class TestGetEvents:
+
     def setup_class(self):
         uri = '/api/v1/events'
         start = datetime.datetime.now()
         end = start + datetime.timedelta(hours=1)
-        period_args = {
-            'start': start,
-            'end': end
-        }
+        period_args = {'start': start, 'end': end}
         period = domain.Period(**period_args)
         event_args = {
             'id': 1,
@@ -61,21 +57,18 @@ class TestGetEvents:
             'uri': '/api/v1/events/999',
             'expect': 404
         }
-    ]
-)
+    ])
 def find_event_by_id_test_case(request):
     return request.param
 
 
 class TestFindEventById:
+
     def setup_class(self):
         uri = '/api/v1/events'
         start = datetime.datetime.now()
         end = start + datetime.timedelta(hours=1)
-        period_args = {
-            'start': start,
-            'end': end
-        }
+        period_args = {'start': start, 'end': end}
         period = domain.Period(**period_args)
         event_args = {
             'id': 1,
@@ -122,8 +115,7 @@ class TestFindEventById:
             },
             'expect': 400
         }
-    ]
-)
+    ])
 def create_event_test_case(request):
     return request.param
 
@@ -133,6 +125,7 @@ def test_create_event(create_event_test_case):
     expect = create_event_test_case['expect']
     post_params = create_event_test_case['post_params']
     test_app = app.api.test_client()
-    response = test_app.post(uri, data=json.dumps(
-        post_params), content_type='application/json')
+    response = test_app.post(uri,
+                             data=json.dumps(post_params),
+                             content_type='application/json')
     assert response.status_code == expect

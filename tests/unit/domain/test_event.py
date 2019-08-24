@@ -18,60 +18,54 @@ period = Period(one_day_ago, one_day_later)
 
 class TestInit:
 
-    @pytest.mark.parametrize('valid_args, expected', [
-        ({
-            'id': 1,
-            'name': 'name',
-            'items': [event_item],
-            'period': period,
-            'description': 'description',
-            'anonymous': True,
-            'created_at': now,
-            'updated_at': one_day_later,
-            'deleted_at': one_day_later,
-        }, {
-            'id': 1,
-            'name': 'name',
-            'period': period,
-            'items': [event_item],
-            'description': 'description',
-            'anonymous': True,
-            'created_at': now,
-            'updated_at': one_day_later,
-            'deleted_at': one_day_later,
-        }),
-        ({
-            'name': 'name',
-            'items': [event_item],
-            'period': period,
-        }, {
-            'id': None,
-            'name': 'name',
-            'items': [event_item],
-            'period': period,
-            'description': None,
-            'anonymous': False,
-            'created_at': None,
-            'updated_at': None,
-            'deleted_at': None,
-        })
-    ])
-    def test_succeeds_initialization_with_valid_args(
-            self, valid_args, expected):
+    @pytest.mark.parametrize('valid_args, expected', [({
+        'id': 1,
+        'name': 'name',
+        'items': [event_item],
+        'period': period,
+        'description': 'description',
+        'anonymous': True,
+        'created_at': now,
+        'updated_at': one_day_later,
+        'deleted_at': one_day_later,
+    }, {
+        'id': 1,
+        'name': 'name',
+        'period': period,
+        'items': [event_item],
+        'description': 'description',
+        'anonymous': True,
+        'created_at': now,
+        'updated_at': one_day_later,
+        'deleted_at': one_day_later,
+    }),
+                                                      ({
+                                                          'name': 'name',
+                                                          'items': [event_item],
+                                                          'period': period,
+                                                      }, {
+                                                          'id': None,
+                                                          'name': 'name',
+                                                          'items': [event_item],
+                                                          'period': period,
+                                                          'description': None,
+                                                          'anonymous': False,
+                                                          'created_at': None,
+                                                          'updated_at': None,
+                                                          'deleted_at': None,
+                                                      })])
+    def test_succeeds_initialization_with_valid_args(self, valid_args,
+                                                     expected):
         event = Event(**valid_args)
         assert get_public_vars(event) == expected
 
-    @pytest.mark.parametrize('invalid_args', [
-        {
-            'name': 'name',
-            'items': event_item,
-        },
-        {
-            'name': 'name',
-            'items': 'event_item',
-        },
-        {}
-    ])
+    @pytest.mark.parametrize('invalid_args', [{
+        'name': 'name',
+        'items': event_item,
+    }, {
+        'name': 'name',
+        'items': 'event_item',
+    }, {}])
     def test_raise_type_error_with_invalid_args(self, invalid_args):
         with pytest.raises(TypeError):
             EventItem(**invalid_args)
