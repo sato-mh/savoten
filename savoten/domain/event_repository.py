@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-class EventRepository(metaclass=ABCMeta):
+class EventRepository(ABC):
     @abstractmethod
     def save(self, event):
         pass
