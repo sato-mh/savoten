@@ -13,8 +13,14 @@ isort = "*"
 pytest = "*"
 "flake8" = "*"
 pluggy = "*"
-"autopep8" = "*"
 ipython = "*"
+yapf = "*"
 
 [requires]
 python_version = "3.6.5"
+
+[scripts]
+test = "bash -c 'PYTHONPATH=./ pytest tests'"
+lint = "flake8"
+format = "bash -c 'yapf -r -i . && isort -rc -y'"
+format-diff = "bash -c 'yapf -r -d . && isort -rc --diff'"
