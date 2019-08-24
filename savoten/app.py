@@ -26,12 +26,13 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
-if __name__ == '__main__':
-    register_api(EventAPI,
-                 name='event_api',
-                 path='/api/v1/events',
-                 key='event_id',
-                 key_type='string')
-    app.register_blueprint(event_view)
+register_api(EventAPI,
+             name='event_api',
+             path='/api/v1/events',
+             key='event_id',
+             key_type='string')
 
+app.register_blueprint(event_view)
+
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
