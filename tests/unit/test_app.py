@@ -3,7 +3,9 @@ import json
 
 import pytest
 
-from savoten import app, domain
+from savoten import domain
+from savoten.app import app
+from savoten.handler.event_api import events
 
 
 @pytest.fixture(scope='function',
@@ -30,15 +32,15 @@ class TestGetEvents:
             'items': []
         }
         event = domain.Event(**event_args)
-        app.events.append(event)
+        events.append(event)
 
     def teardown_class(self):
-        app.events.clear()
+        events.clear()
 
     def test_get_events(self, get_events_test_case):
         uri = get_events_test_case['uri']
         expect_status_code = get_events_test_case['expect']
-        test_app = app.api.test_client()
+        test_app = app.test_client()
         response = test_app.get(uri)
         assert (response.status_code == expect_status_code)
 
@@ -76,15 +78,15 @@ class TestFindEventById:
             'items': []
         }
         event = domain.Event(**event_args)
-        app.events.append(event)
+        events.append(event)
 
     def teardown_class(self):
-        app.events.clear()
+        events.clear()
 
     def test_find_event_by_id(self, find_event_by_id_test_case):
         uri = find_event_by_id_test_case['uri']
         expect_status_code = find_event_by_id_test_case['expect']
-        test_app = app.api.test_client()
+        test_app = app.test_client()
         response = test_app.get(uri)
         assert (response.status_code == expect_status_code)
 
@@ -122,7 +124,7 @@ def test_create_event(create_event_test_case):
     uri = create_event_test_case['uri']
     expect = create_event_test_case['expect']
     post_params = create_event_test_case['post_params']
-    test_app = app.api.test_client()
+    test_app = app.test_client()
     response = test_app.post(uri,
                              data=json.dumps(post_params),
                              content_type='application/json')
