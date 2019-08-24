@@ -47,17 +47,11 @@ const showRequestError = (xhr, textStatus, errorThrown) => {
   }
   if (Number(xhr.status) < 500) {
     alert(
-      xhr.status +
-        " " +
-        errorThrown +
-        ": Invalid Request. Please check input value."
+      `${xhr.status} ${errorThrown} : Invalid Request. Please check input value.`
     );
   } else {
     alert(
-      xhr.status +
-        " " +
-        errorThrown +
-        ": Internal server error. Please contact server administrator."
+      `${xhr.status} ${errorThrown} : Internal server error. Please contact server administrator.`
     );
   }
 };
