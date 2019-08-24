@@ -22,5 +22,5 @@ python_version = "3.6.5"
 [scripts]
 test = "bash -c 'PYTHONPATH=./ pytest tests'"
 lint = "flake8"
-format = "bash -c 'yapf -r -i . && isort -rc -y'"
-format-diff = "bash -c 'yapf -r -d . && isort -rc --diff'"
+format = "bash -c 'yapf -r -i --exclude .git . && isort -rc -y'"
+format-diff = "bash -c 'yapf -r -d --exclude .git . && isort -rc --diff'"
