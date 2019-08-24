@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 class EventRepository(ABC):
     @abstractmethod
