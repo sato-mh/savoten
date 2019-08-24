@@ -11,16 +11,16 @@ events = []
 @api.route('/api/v1/events', methods=['GET'])
 def get_events():
     try:
-        events_list = []
-        for event in events:
-            event_json = {
+        events_list = [
+            {
                 'id': event.id,
                 'name': event.name,
                 'start': event.period.start,
                 'end': event.period.end,
                 'description': event.description
             }
-            events_list.append(event_json)
+            for event in events
+        ]
         return make_response(jsonify({'events': events_list}), 200)
     except Exception as e:
         error_message = 'get_events fail'
