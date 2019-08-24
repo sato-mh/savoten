@@ -30,34 +30,38 @@ def get_events_list():
         return make_response(jsonify(response), 500)
 
 
-@api.route('/events/<string:event_id>', methods=['GET'])
-def get_event(event_id):
+@api.route('/api/v1/events/<string:event_id>', methods=['GET'])
+def find_event_by_id(event_id):
     try:
         for event in events:
             if event.id == int(event_id):
                 response = {
-                    'result': True,
                     'data': {
                         'id': event.id,
                         'name': event.name,
+                        'items': event.items,
                         'start': event.period.start,
                         'end': event.period.end,
-                        'description': event.description
+                        'description': event.description,
+                        'anonymous': event.anonymous,
+                        'created_at': event.created_at,
+                        'updated_at': event.updated_at,
+                        'deleted_at': event.deleted_at
                     }
                 }
                 return make_response(jsonify(response), 200)
         # if event is not found, return status_code:200 and result:False.
-        return make_response(jsonify({'result': False}), 200)
+        return make_response(jsonify({'data': {}}), 404)
     except Exception as e:
-        error_message = 'get_event fail'
+        error_message = 'find_event_by_id fail'
         api.logger.error('%s %s' % (error_message, e))
         response = {
             'error_message': error_message
         }
-        return make_response(jsonify(response), 400)
+        return make_response(jsonify(response), 500)
 
 
-@api.route('/events', methods=['POST'])
+@api.route('/api/v1/events', methods=['POST'])
 def create_event():
     try:
         period_args = {
@@ -114,9 +118,9 @@ def get_events_list_page():
     return render_template('get_events_list_page.html')
 
 
-@api.route('/create_event_page', methods=['GET'])
+@api.route('/create_event', methods=['GET'])
 def create_event_page():
-    return render_template('create_event_page.html')
+    return render_template('create_event.html')
 
 
 @api.errorhandler(404)
