@@ -1,6 +1,6 @@
-const displayEventsListTable = () => {
+const displayEventsTable = () => {
   $.getJSON({
-    url: '/events/list'
+    url: '/api/v1/events'
   }).then(
     (data, status, xhr) => {
       const events = data['events'];
@@ -52,4 +52,4 @@ const showRequestError = (xhr, textStatus, errorThrown) => {
   }
 }
 
-window.addEventListener('load', displayEventsListTable);
+window.addEventListener('load', displayEventsTable);
