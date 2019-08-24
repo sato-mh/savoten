@@ -8,6 +8,29 @@ api = Flask(__name__)
 events = []
 
 
+@api.route('/api/v1/events', methods=['GET'])
+def get_events():
+    try:
+        event_list = [
+            {
+                'id': event.id,
+                'name': event.name,
+                'start': event.period.start,
+                'end': event.period.end,
+                'description': event.description
+            }
+            for event in events
+        ]
+        return make_response(jsonify({'events': event_list}), 200)
+    except Exception as e:
+        error_message = 'get_events fail'
+        api.logger.error('%s %s' % (error_message, e))
+        response = {
+            'error_message': error_message
+        }
+        return make_response(jsonify(response), 500)
+
+
 @api.route('/api/v1/events/<string:event_id>', methods=['GET'])
 def find_event_by_id(event_id):
     try:
@@ -89,6 +112,11 @@ def create_event():
     }
 
     return make_response(jsonify(response), 201)
+
+
+@api.route('/events', methods=['GET'])
+def get_events_page():
+    return render_template('get_events.html')
 
 
 @api.route('/create_event', methods=['GET'])
