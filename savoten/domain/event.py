@@ -4,9 +4,16 @@ from .period import Period
 
 class Event:
 
-    def __init__(self, name, items, period, id=None,
-                 description=None, anonymous=False,
-                 created_at=None, updated_at=None, deleted_at=None):
+    def __init__(self,
+                 name,
+                 items,
+                 period,
+                 id=None,
+                 description=None,
+                 anonymous=False,
+                 created_at=None,
+                 updated_at=None,
+                 deleted_at=None):
         self.id = id
         self.name = name
         self.items = items
@@ -23,10 +30,10 @@ class Event:
 
     @items.setter
     def items(self, items):
-        if not (isinstance(items, list)
-                and all([isinstance(item, EventItem) for item in items])):
-            raise TypeError('items is required List[EventItem]. not {}.'
-                            .format(type(items)))
+        if not (isinstance(items, list) and
+                all([isinstance(item, EventItem) for item in items])):
+            raise TypeError('items is required List[EventItem]. not {}.'.format(
+                type(items)))
         self._items = items
 
     @property
@@ -36,8 +43,8 @@ class Event:
     @period.setter
     def period(self, period):
         if not isinstance(period, Period):
-            raise TypeError('period is required {}. not {}.'
-                            .format(Period, type(period)))
+            raise TypeError('period is required {}. not {}.'.format(
+                Period, type(period)))
         self._period = period
 
     def is_within(self):

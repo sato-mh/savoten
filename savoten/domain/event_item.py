@@ -3,8 +3,14 @@ from .candidate import Candidate
 
 class EventItem:
 
-    def __init__(self, name, candidates, description=None,
-                 seats=1, max_choice=1, min_choice=1, id=None):
+    def __init__(self,
+                 name,
+                 candidates,
+                 description=None,
+                 seats=1,
+                 max_choice=1,
+                 min_choice=1,
+                 id=None):
         self.id = id
         self.name = name
         self.candidates = candidates
@@ -19,8 +25,8 @@ class EventItem:
 
     @candidates.setter
     def candidates(self, candidates):
-        if not (isinstance(candidates, list)
-                and all([isinstance(c, Candidate) for c in candidates])):
-            raise TypeError('items is required List[Candidate]. not {}.'
-                            .format(type(candidates)))
+        if not (isinstance(candidates, list) and
+                all([isinstance(c, Candidate) for c in candidates])):
+            raise TypeError('items is required List[Candidate]. not {}.'.format(
+                type(candidates)))
         self._candidates = candidates

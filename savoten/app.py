@@ -1,6 +1,9 @@
 import datetime
+
 import dateutil.parser
-from flask import Flask, jsonify, abort, make_response, request, render_template
+from flask import (Flask, abort, jsonify, make_response, render_template,
+                   request)
+
 from savoten import domain
 
 api = Flask(__name__)
@@ -11,23 +14,18 @@ events = []
 @api.route('/api/v1/events', methods=['GET'])
 def get_events():
     try:
-        event_list = [
-            {
-                'id': event.id,
-                'name': event.name,
-                'start': event.period.start,
-                'end': event.period.end,
-                'description': event.description
-            }
-            for event in events
-        ]
+        event_list = [{
+            'id': event.id,
+            'name': event.name,
+            'start': event.period.start,
+            'end': event.period.end,
+            'description': event.description
+        } for event in events]
         return make_response(jsonify({'events': event_list}), 200)
     except Exception as e:
         error_message = 'get_events fail'
         api.logger.error('%s %s' % (error_message, e))
-        response = {
-            'error_message': error_message
-        }
+        response = {'error_message': error_message}
         return make_response(jsonify(response), 500)
 
 
@@ -56,9 +54,7 @@ def find_event_by_id(event_id):
     except Exception as e:
         error_message = 'find_event_by_id fail'
         api.logger.error('%s %s' % (error_message, e))
-        response = {
-            'error_message': error_message
-        }
+        response = {'error_message': error_message}
         return make_response(jsonify(response), 500)
 
 
@@ -81,11 +77,7 @@ def create_event():
 
         # non-required parameter keys
         event_option_keys = [
-            'description',
-            'anonymous',
-            'created_at',
-            'updated_at',
-            'deleted_at'
+            'description', 'anonymous', 'created_at', 'updated_at', 'deleted_at'
         ]
         # set non-required parameter to event_args.
         for key in event_option_keys:
@@ -98,9 +90,7 @@ def create_event():
     except Exception as e:
         error_message = 'create_event fail'
         api.logger.error('%s %s' % (error_message, e))
-        response = {
-            'error_message': error_message
-        }
+        response = {'error_message': error_message}
         return make_response(jsonify(response), 400)
 
     response = {

@@ -14,8 +14,8 @@ class Period:
     @start.setter
     def start(self, start):
         if not self._is_datetime(start):
-            raise TypeError('start is required {}. not {}.'
-                            .format(datetime, type(start)))
+            raise TypeError('start is required {}. not {}.'.format(
+                datetime, type(start)))
         self._start = start
 
     @property
@@ -25,8 +25,8 @@ class Period:
     @end.setter
     def end(self, end):
         if not self._is_datetime(end):
-            raise TypeError('end is required {}. not {}.'
-                            .format(datetime, type(end)))
+            raise TypeError('end is required {}. not {}.'.format(
+                datetime, type(end)))
         self._end = end
 
     @staticmethod

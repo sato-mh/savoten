@@ -1,25 +1,17 @@
-from savoten.repository.json_reader_writer import (
-    json_read, json_write, lock, unlock
-)
 import os
+
 from filelock import FileLock
 
+from savoten.repository.json_reader_writer import (json_read, json_write, lock,
+                                                   unlock)
+
 _dname = os.path.dirname
-TEST_READ_FILE_NAME = os.path.join(
-        _dname(os.path.abspath(__file__)),
-        'data',
-        'json_read'
-    )
-TEST_WRITE_FILE_NAME = os.path.join(
-        _dname(os.path.abspath(__file__)),
-        'data',
-        'json_write'
-    )
-TEST_LOCK_FILE_NAME = os.path.join(
-    _dname(os.path.abspath(__file__)),
-    'data',
-    'lock_test'
-)
+TEST_READ_FILE_NAME = os.path.join(_dname(os.path.abspath(__file__)), 'data',
+                                   'json_read')
+TEST_WRITE_FILE_NAME = os.path.join(_dname(os.path.abspath(__file__)), 'data',
+                                    'json_write')
+TEST_LOCK_FILE_NAME = os.path.join(_dname(os.path.abspath(__file__)), 'data',
+                                   'lock_test')
 
 
 def teardown_function():

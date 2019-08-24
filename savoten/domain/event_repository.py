@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 
+
 class EventRepository(ABC):
+
     @abstractmethod
     def save(self, event):
         pass

@@ -15,6 +15,6 @@ class Candidate:
     @user.setter
     def user(self, user):
         if not isinstance(user, User):
-            raise TypeError('items is required {}. not {}.'
-                            .format(User, type(user)))
+            raise TypeError('items is required {}. not {}.'.format(
+                User, type(user)))
         self._user = user
