@@ -23,16 +23,16 @@ class TestGetEvents:
         start = datetime.datetime.now()
         end = start + datetime.timedelta(hours=1)
         period_args = {
-            "start": start,
-            "end": end
+            'start': start,
+            'end': end
         }
         period = domain.Period(**period_args)
         event_args = {
-            "id": 1,
-            "name": "test_name",
-            "period": period,
-            "description": "test_desc",
-            "items": []
+            'id': 1,
+            'name': 'test_name',
+            'period': period,
+            'description': 'test_desc',
+            'items': []
         }
         event = domain.Event(**event_args)
         app.events.append(event)
@@ -73,16 +73,16 @@ class TestFindEventById:
         start = datetime.datetime.now()
         end = start + datetime.timedelta(hours=1)
         period_args = {
-            "start": start,
-            "end": end
+            'start': start,
+            'end': end
         }
         period = domain.Period(**period_args)
         event_args = {
-            "id": 1,
-            "name": "test_name",
-            "period": period,
-            "description": "test_desc",
-            "items": []
+            'id': 1,
+            'name': 'test_name',
+            'period': period,
+            'description': 'test_desc',
+            'items': []
         }
         event = domain.Event(**event_args)
         app.events.append(event)
@@ -105,10 +105,10 @@ class TestFindEventById:
             # success case
             'uri': '/api/v1/events',
             'post_params': {
-                "name": "test_name",
-                "start": "2019-08-01 01:02:03.123456",
-                "end": "2019-08-02 01:02:03.123456",
-                "description": "test_desc"
+                'name': 'test_name',
+                'start': '2019-08-01 01:02:03.123456',
+                'end': '2019-08-02 01:02:03.123456',
+                'description': 'test_desc'
             },
             'expect': 201
         },
@@ -116,9 +116,9 @@ class TestFindEventById:
             # fail case (missing post_params['name'])
             'uri': '/api/v1/events',
             'post_params': {
-                "start": "2019-08-01 01:02:03.123456",
-                "end": "2019-08-02 01:02:03.123456",
-                "description": "test_desc"
+                'start': '2019-08-01 01:02:03.123456',
+                'end': '2019-08-02 01:02:03.123456',
+                'description': 'test_desc'
             },
             'expect': 400
         }
