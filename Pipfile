@@ -17,7 +17,7 @@ ipython = "*"
 yapf = "*"
 
 [requires]
-python_version = "3.6.5"
+python_version = "3.7.4"
 
 [scripts]
 test = "bash -c 'PYTHONPATH=./ pytest tests'"
