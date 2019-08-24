@@ -31,7 +31,7 @@ def find_event_by_id(event_id):
         # if event is not found, return status_code:200 and result:False.
         return make_response(jsonify({'data': {}}), 404)
     except Exception as e:
-        error_message = 'get_event fail'
+        error_message = 'find_event_by_id fail'
         api.logger.error('%s %s' % (error_message, e))
         response = {
             'error_message': error_message
