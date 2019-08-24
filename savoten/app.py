@@ -1,45 +1,69 @@
 import datetime
 import dateutil.parser
-from flask import Flask, jsonify, abort, make_response, request
+from flask import Flask, jsonify, abort, make_response, request, render_template
 from savoten import domain
 
 api = Flask(__name__)
 
-events = {}
+events = []
 
 
-@api.route('/events/<string:event_id>', methods=['GET'])
-def get_event(event_id):
+@api.route('/api/v1/events', methods=['GET'])
+def get_events():
     try:
-        start = datetime.datetime.now()
-        end = start + datetime.timedelta(hours=1)
-        args = {
-            'name': event_id,
-            'items': [],
-            'period': domain.Period(start, end),
-            'description': 'description for test'
+        event_list = [
+            {
+                'id': event.id,
+                'name': event.name,
+                'start': event.period.start,
+                'end': event.period.end,
+                'description': event.description
+            }
+            for event in events
+        ]
+        return make_response(jsonify({'events': event_list}), 200)
+    except Exception as e:
+        error_message = 'get_events fail'
+        api.logger.error('%s %s' % (error_message, e))
+        response = {
+            'error_message': error_message
         }
-        event = domain.Event(**args)
-    except:
-        abort(404)
+        return make_response(jsonify(response), 500)
 
-    result = {
-        "result": True,
-        "data": {
-            "event_id": event.id,
-            "event_items": event.items,
-            "period_start": event.period.start,
-            "period_end": event.period.end,
-            "description": event.description
+
+@api.route('/api/v1/events/<string:event_id>', methods=['GET'])
+def find_event_by_id(event_id):
+    try:
+        for event in events:
+            if event.id == int(event_id):
+                response = {
+                    'data': {
+                        'id': event.id,
+                        'name': event.name,
+                        'items': event.items,
+                        'start': event.period.start,
+                        'end': event.period.end,
+                        'description': event.description,
+                        'anonymous': event.anonymous,
+                        'created_at': event.created_at,
+                        'updated_at': event.updated_at,
+                        'deleted_at': event.deleted_at
+                    }
+                }
+                return make_response(jsonify(response), 200)
+        # if event is not found, return status_code:200 and result:False.
+        return make_response(jsonify({'data': {}}), 404)
+    except Exception as e:
+        error_message = 'find_event_by_id fail'
+        api.logger.error('%s %s' % (error_message, e))
+        response = {
+            'error_message': error_message
         }
-    }
-
-    return make_response(jsonify(result))
+        return make_response(jsonify(response), 500)
 
 
-@api.route('/events', methods=['POST'])
+@api.route('/api/v1/events', methods=['POST'])
 def create_event():
-
     try:
         period_args = {
             # datetime.datetime parse
@@ -70,7 +94,7 @@ def create_event():
 
         event = domain.Event(**event_args)
 
-        events[event_args['id']] = event
+        events.append(event)
     except Exception as e:
         error_message = 'create_event fail'
         api.logger.error('%s %s' % (error_message, e))
@@ -88,6 +112,16 @@ def create_event():
     }
 
     return make_response(jsonify(response), 201)
+
+
+@api.route('/events', methods=['GET'])
+def get_events_page():
+    return render_template('get_events.html')
+
+
+@api.route('/create_event', methods=['GET'])
+def create_event_page():
+    return render_template('create_event.html')
 
 
 @api.errorhandler(404)
