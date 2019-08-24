@@ -1,5 +1,5 @@
 import dateutil.parser
-from flask import (Flask, jsonify, make_response, render_template, request)
+from flask import Flask, jsonify, make_response, render_template, request
 
 from savoten import domain
 
