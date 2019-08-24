@@ -10,7 +10,7 @@ const displayEventsTable = () => {
       }
       // テーブルの項目行のデータ
       const dataKeys = ["id", "name", "description"];
-      const tableId = "table";
+      const tableId = "eventTable";
       makeTable(events, dataKeys, tableId);
     },
     (xhr, textStatus, errorThrown) => {
