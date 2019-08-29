@@ -33,7 +33,10 @@ const makeTable = (data, dataKeys, tableId) => {
     const bodyRow = table.insertRow(-1);
     for (let j = 0; j < dataKeys.length; j++) {
       const cell = bodyRow.insertCell(-1);
-      cell.appendChild(document.createTextNode(data[i][dataKeys[j]]));
+      const anchor = document.createElement("a");
+      anchor.href = `${location.origin}/event/${data[i]["id"]}`;
+      anchor.textContent = data[i][dataKeys[j]];
+      cell.appendChild(anchor);
     }
   }
 };
