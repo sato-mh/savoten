@@ -24,6 +24,11 @@ const makeTable = (data, dataKeys, tableId) => {
   // set table_head
   const thead = table.createTHead();
   const thRow = thead.insertRow(0);
+
+  // イベント詳細ボタン列の追加処理
+  const cell = thRow.insertCell();
+  cell.textContent = "イベント詳細";
+
   for (let i = 0; i < dataKeys.length; i++) {
     const cell = thRow.insertCell();
     cell.textContent = dataKeys[i];
@@ -31,12 +36,22 @@ const makeTable = (data, dataKeys, tableId) => {
   // set table_body
   for (let i = 0; i < data.length; i++) {
     const bodyRow = table.insertRow(-1);
+
+    // イベント詳細遷移のボタン追加処理
+    const cell = bodyRow.insertCell(-1);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "詳細";
+    button.classList.add("btn", "btn-sm", "btn-primary");
+    button.onclick = () => {
+      document.location = `${location.origin}/events/${data[i]["id"]}`;
+      return
+    }
+    cell.appendChild(button);
+
     for (let j = 0; j < dataKeys.length; j++) {
       const cell = bodyRow.insertCell(-1);
-      const anchor = document.createElement("a");
-      anchor.href = `${location.origin}/event/${data[i]["id"]}`;
-      anchor.textContent = data[i][dataKeys[j]];
-      cell.appendChild(anchor);
+      cell.appendChild(document.createTextNode(data[i][dataKeys[j]]));
     }
   }
 };
