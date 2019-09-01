@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-event_view = Blueprint('view',
+event_view = Blueprint('event_view',
                        __name__,
                        template_folder='templates',
                        static_folder='static')
