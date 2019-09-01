@@ -11,11 +11,11 @@ events = []
 
 class EventAPI(MethodView):
 
-    def get(self, event_id):
-        if event_id is None:
+    def get(self, id):
+        if id is None:
             return self._find_all()
         else:
-            return self._find_by_id(event_id)
+            return self._find_by_id(id)
 
     def _find_all(self):
         try:
@@ -33,10 +33,10 @@ class EventAPI(MethodView):
             response = {'error_message': error_message}
             return make_response(jsonify(response), 500)
 
-    def _find_by_id(self, event_id):
+    def _find_by_id(self, id):
         try:
             for event in events:
-                if event.id == int(event_id):
+                if event.id == int(id):
                     response = {
                         'data': {
                             'id': event.id,
