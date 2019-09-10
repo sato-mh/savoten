@@ -19,7 +19,6 @@ class EventItemRepository(domain.EventItemRepositoryInterface):
         self.event_items.pop(str(event_item.id))
 
     def find_by_id(self, id):
-        id = int(id)
         if id in self.event_items:
             return self.event_items[id]
         else:
@@ -27,7 +26,7 @@ class EventItemRepository(domain.EventItemRepositoryInterface):
 
     def find_by_event_id(self, event_id):
         event_id = int(event_id)
-        targets = [event_item for event_item in self.event_items if event_item.event_id == event_id]
+        targets = [event_item for event_item in self.event_items.values() if event_item.event_id == event_id]
         return targets
 
     def get_new_id(self):
