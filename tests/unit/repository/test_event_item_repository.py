@@ -32,11 +32,11 @@ def setup_typical_params():
 
 class TestSave:
 
-    def test_success_if_event_item_id_is_none(self, setup_typical_params):
+    def test_no_error_if_event_item_id_is_none(self, setup_typical_params):
         event_item_repository = setup_typical_params['event_item_repository']
         event_item_repository.save(setup_typical_params['event_item'])
 
-    def test_success_if_event_item_id_exists(self, setup_typical_params):
+    def test_event_item_is_updated_if_event_item_id_exists(self, setup_typical_params):
         event_item_repository = setup_typical_params['event_item_repository']
         event_item_id_exist = event_item_repository.save(
             setup_typical_params['event_item'])
@@ -49,21 +49,21 @@ class TestSave:
 
 class TestDelete:
 
-    def test_success_if_event_item_exists(self, setup_typical_params):
+    def test_no_error_if_event_item_exists(self, setup_typical_params):
         event_item_repository = setup_typical_params['event_item_repository']
         event_item = setup_typical_params['event_item']
         event_item.id = 1
         event_item_repository.event_items['1'] = event_item
         event_item_repository.delete(event_item)
 
-    def test_fail_if_event_item_id_is_none(self, setup_typical_params):
+    def test_return_value_error_if_event_item_id_is_none(self, setup_typical_params):
         event_item_repository = setup_typical_params['event_item_repository']
         event_item = setup_typical_params['event_item']
         event_item.id = None
         with pytest.raises(ValueError):
             assert event_item_repository.delete(event_item)
 
-    def test_fail_if_event_item_is_not_exist(self, setup_typical_params):
+    def test_return_value_error_if_event_item_is_not_exist(self, setup_typical_params):
         event_item_repository = setup_typical_params['event_item_repository']
         event_item = setup_typical_params['event_item']
         event_item.id = 1
