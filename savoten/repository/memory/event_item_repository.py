@@ -14,9 +14,9 @@ class EventItemRepository(domain.EventItemRepositoryInterface):
         return event_item
 
     def delete(self, event_item):
-        if event_item.id is None or str(event_item.id) not in self.event_items:
+        if event_item.id is None or event_item.id not in self.event_items:
             raise ValueError("error!")
-        self.event_items.pop(str(event_item.id))
+        self.event_items.pop(event_item.id)
 
     def find_by_id(self, id):
         if id in self.event_items:
@@ -25,7 +25,6 @@ class EventItemRepository(domain.EventItemRepositoryInterface):
             return None
 
     def find_by_event_id(self, event_id):
-        event_id = int(event_id)
         targets = [
             event_item for event_item in self.event_items.values()
             if event_item.event_id == event_id
