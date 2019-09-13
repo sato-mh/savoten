@@ -10,7 +10,8 @@ class EventItem:
                  seats=1,
                  max_choice=1,
                  min_choice=1,
-                 id=None):
+                 id=None,
+                 event_id=None):
         self.id = id
         self.name = name
         self.candidates = candidates
@@ -18,6 +19,7 @@ class EventItem:
         self.seats = seats
         self.max_choice = max_choice
         self.min_choice = min_choice
+        self.event_id = event_id
 
     @property
     def candidates(self):
