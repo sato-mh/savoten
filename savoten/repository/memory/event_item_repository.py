@@ -9,7 +9,7 @@ class EventItemRepository(domain.EventItemRepositoryInterface):
 
     def save(self, event_item):
         if event_item.id is None:
-            event_item.id = self.get_new_id()
+            event_item.id = self._get_new_id()
         self.event_items[event_item.id] = event_item
         return event_item
 
@@ -31,6 +31,6 @@ class EventItemRepository(domain.EventItemRepositoryInterface):
         ]
         return targets
 
-    def get_new_id(self):
+    def _get_new_id(self):
         self.id = self.id + 1
         return self.id
