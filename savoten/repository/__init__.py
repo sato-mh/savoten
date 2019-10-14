@@ -1,1 +1,1 @@
-from .memory import *  # noqa: F403, F401
+from .memory import event_item_repository  # noqa: F403, F401
