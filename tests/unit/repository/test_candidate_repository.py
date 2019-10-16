@@ -41,12 +41,8 @@ class TestSave:
     def test_succeeds_if_event_item_id_exists(self, candidate,event_item_id,
                                                   setup_repository):
         candidate_repository = setup_repository
-        event_item_args = {'name': 'test_name', 'candidates':[Candidate(user,id=1)]}
-        event_item = EventItem(**event_item_args)
-        event_item_repository.event_items[1] = candidate
         candidate_repository.save(candidate, event_item_id)
-        assert get_public_vars(
-            set(event_item_repository.event_items[event_item_id].candidates)) == set([candidate])
+        assert set(candidate_repository.event_item_id_to_candidates_map[event_item_id]) == set([candidate])
 
 class TestDelete:
 
@@ -83,6 +79,23 @@ class TestFindById:
     def test_return_candidate_if_id_exists(self, candidate, setup_repository):
         candidate_repository = setup_repository
         candidate_repository.candidates[1] = candidate
+        found_candidate = candidate_repository.find_by_id(1)
+        assert get_public_vars(found_candidate) == get_public_vars(
+            candidate_repository.candidates[1])
+
+    def test_return_none_if_id_does_not_exist(self, setup_repository):
+        candidate_repository = setup_repository
+        found_candidate = candidate_repository.find_by_id(100)
+        assert found_candidate is None
+
+class TestFindByEventItemId:
+    
+    @pytest.mark.parametrize('candidate',
+                             [Candidate(user, id=1)])
+    def test_return_candidates_if_event_item_ids_candidates_exists(self, candidate, setup_repository):
+        candidate_repository = setup_repository
+        candidate_repository.candidates[1] = candidate
+
         found_candidate = candidate_repository.find_by_id(1)
         assert get_public_vars(found_candidate) == get_public_vars(
             candidate_repository.candidates[1])

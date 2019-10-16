@@ -19,11 +19,11 @@ class CandidateRepository(domain.CandidateRepositoryInterface):
         # event_itemとの所属関係の処理
         # on_memoryからDB仕様にする時に書き換えが必要
         if event_item_id:
-            if self.self.event_item_id_to_candidates_map.get(event_item_id, None):
-                self.self.event_item_id_to_candidates_map[event_item_id].append(candidate)
+            if self.event_item_id_to_candidates_map.get(event_item_id, None):
+                self.event_item_id_to_candidates_map[event_item_id].append(candidate)
             else:
-                self.self.event_item_id_to_candidates_map[event_item_id] = [candidate]
-
+                self.event_item_id_to_candidates_map[event_item_id] = [candidate]
+        
         return candidate
 
     def delete(self, candidate):
