@@ -5,6 +5,7 @@ event_view = Blueprint('event_view',
                        template_folder='templates',
                        static_folder='static')
 
+
 @event_view.route('/events/<int:id>', methods=['GET'])
 def get_event_page(id):
     return render_template('event.html')
