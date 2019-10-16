@@ -2,11 +2,12 @@ import dateutil.parser
 from flask import jsonify, make_response, request
 from flask.views import MethodView
 
-from savoten import domain
+from savoten import domain, repository
 from savoten.logger import get_logger
 
 logger = get_logger(__name__)
-events = []
+
+event_repository = repository.EventRepository()
 
 
 class EventAPI(MethodView):
@@ -18,6 +19,7 @@ class EventAPI(MethodView):
             return self._find_by_id(id)
 
     def _find_all(self):
+        events = event_repository.find_all().values()
         try:
             event_list = [{
                 'id': event.id,
@@ -35,25 +37,25 @@ class EventAPI(MethodView):
 
     def _find_by_id(self, id):
         try:
-            for event in events:
-                if event.id == int(id):
-                    response = {
-                        'data': {
-                            'id': event.id,
-                            'name': event.name,
-                            'items': event.items,
-                            'start': event.period.start,
-                            'end': event.period.end,
-                            'description': event.description,
-                            'anonymous': event.anonymous,
-                            'created_at': event.created_at,
-                            'updated_at': event.updated_at,
-                            'deleted_at': event.deleted_at
-                        }
+            event = event_repository.find_by_id(id)
+            if event is None:
+                return make_response(jsonify({'data': {}}), 404)
+            else:
+                response = {
+                    'data': {
+                        'id': event.id,
+                        'name': event.name,
+                        'items': event.items,
+                        'start': event.period.start,
+                        'end': event.period.end,
+                        'description': event.description,
+                        'anonymous': event.anonymous,
+                        'created_at': event.created_at,
+                        'updated_at': event.updated_at,
+                        'deleted_at': event.deleted_at
                     }
-                    return make_response(jsonify(response), 200)
-            # if event is not found, return status_code:200 and result:False.
-            return make_response(jsonify({'data': {}}), 404)
+                }
+                return make_response(jsonify(response), 200)
         except Exception as e:
             error_message = 'find_event_by_id fail'
             logger.error('%s %s' % (error_message, e))
@@ -73,7 +75,6 @@ class EventAPI(MethodView):
                 'name': request.json['name'],
                 'period': period,
             }
-            event_args['id'] = len(events) + 1
             event_args['items'] = []
 
             # non-required parameter keys
@@ -88,7 +89,7 @@ class EventAPI(MethodView):
 
             event = domain.Event(**event_args)
 
-            events.append(event)
+            event_repository.save(event)
         except Exception as e:
             error_message = 'create_event fail'
             logger.error('%s %s' % (error_message, e))
