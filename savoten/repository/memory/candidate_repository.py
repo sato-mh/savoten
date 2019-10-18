@@ -10,7 +10,7 @@ class CandidateRepository(domain.CandidateRepositoryInterface):
         # 本来DBテーブルに記録するevent_item_idとcandidateの関係を、on_memoryの間だけ代替するdict
         # key: event_item_id, value: [candidate]で記載
         # on_memoryの間だけ使用する　DB仕様では不要
-        self.event_item_id_to_candidates_map = {}
+        self.event_item_id_to_candidate_map = {}
 
     def save(self, candidate, event_item_id=None):
         if candidate.id is None:
@@ -20,13 +20,11 @@ class CandidateRepository(domain.CandidateRepositoryInterface):
         # event_itemとの所属関係の処理
         # on_memoryからDB仕様にする時に書き換えが必要
         if event_item_id:
-            if self.event_item_id_to_candidates_map.get(event_item_id, None):
-                self.event_item_id_to_candidates_map[event_item_id].append(
+            if self.event_item_id_to_candidate_map.get(event_item_id, None):
+                self.event_item_id_to_candidate_map[event_item_id].append(
                     candidate)
             else:
-                self.event_item_id_to_candidates_map[event_item_id] = [
-                    candidate
-                ]
+                self.event_item_id_to_candidate_map[event_item_id] = [candidate]
 
         return candidate
 
@@ -38,7 +36,7 @@ class CandidateRepository(domain.CandidateRepositoryInterface):
 
         # event_itemとの所属関係の処理
         # on_memoryからDB仕様にする時に書き換えが必要
-        for candidates in self.event_item_id_to_candidates_map:
+        for candidates in self.event_item_id_to_candidate_map:
             if candidate in candidates:
                 candidates.remove(candidate)
 
