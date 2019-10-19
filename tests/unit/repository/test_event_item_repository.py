@@ -16,13 +16,7 @@ candidate = Candidate(**candidate_args)
 class TestSave:
 
     def setup_method(self, method):
-        print('\n### setup_method {} ###'.format(method.__name__))
         self.repository = EventItemRepository()
-        print('vars(repository): {}' .format(vars(self.repository)))
-
-    def teardown_method(self, method):
-        print('\n### teardown_method {} ###'.format(method.__name__))
-        print('vars(repository): {}' .format(vars(self.repository)))
 
     @pytest.mark.parametrize('event_item',
                              [EventItem('test_name', [candidate])])
@@ -44,14 +38,8 @@ class TestSave:
 class TestDelete:
 
     def setup_method(self, method):
-        print('\n### setup_method {} ###'.format(method.__name__))
         self.repository = EventItemRepository()
         self.repository.event_items[1] = [EventItem('test_name', [candidate], id=1)]
-        print('vars(repository): {}' .format(vars(self.repository)))
-
-    def teardown_method(self, method):
-        print('\n### teardown_method {} ###'.format(method.__name__))
-        print('vars(repository): {}' .format(vars(self.repository)))
 
     @pytest.mark.parametrize('event_item',
                              [EventItem('test_name', [candidate], id=1)])
@@ -75,15 +63,8 @@ class TestFindById:
 
     @classmethod
     def setup_class(cls):
-        print('\n### setup_class {} ###'.format(cls.__name__))
         cls.repository = EventItemRepository()
         cls.repository.event_items[1] = EventItem('test_name', [candidate], id=1)
-        print('vars(repository): {}' .format(vars(cls.repository)))
-
-    @classmethod
-    def teardown_class(cls):
-        print('\n### teardown_class {} ###'.format(cls.__name__))
-        print('vars(repository): {}' .format(vars(cls.repository)))
 
     def test_return_event_item_when_target_id_exists(self):
         assert get_public_vars(self.repository.find_by_id(1)) == get_public_vars(
@@ -96,7 +77,6 @@ class TestFindByEventId:
 
     @classmethod
     def setup_class(cls):
-        print('\n### setup_class {} ###'.format(cls.__name__))
         cls.repository = EventItemRepository()
         cls.added_event_items = []
         event_id = 1
@@ -105,12 +85,6 @@ class TestFindByEventId:
             event_item = EventItem('test_name', [candidate], id=i)
             cls.repository.event_id_to_event_item_map[event_id].append(event_item)
             cls.added_event_items.append(event_item)
-        print('vars(repository): {}' .format(vars(cls.repository)))
-
-    @classmethod
-    def teardown_class(cls):
-        print('\n### teardown_class {} ###'.format(cls.__name__))
-        print('vars(repository): {}' .format(vars(cls.repository)))
 
     def test_return_found_event_items_when_target_event_id_exists(self):
         assert set(self.repository.find_by_event_id(1)) == set(self.added_event_items)
