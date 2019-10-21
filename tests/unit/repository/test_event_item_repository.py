@@ -16,38 +16,56 @@ candidate = Candidate(**candidate_args)
 
 class TestSave:
 
-    def setup_method(self, method):
+    def setup_method(self):
         self.repository = EventItemRepository()
 
     @pytest.mark.parametrize('event_item',
                              [EventItem('test_name', [candidate])])
-    def test_succeeds_when_given_event_item_has_no_id(self, event_item):
+    def test_succeeds_when_event_item_has_no_id(self, event_item):
         self.repository.save(event_item)
         assert get_public_vars(
             self.repository.event_items[1]) == get_public_vars(event_item)
 
-    @pytest.mark.parametrize('event_item',
-                             [EventItem('test_name', [candidate], id=3)])
-    def test_update_succeeds_when_given_event_item_has_id(self, event_item):
+    @pytest.mark.parametrize('event_item, updated_event_item',
+                             [(EventItem('test_name', [candidate], id=3),
+                               EventItem('updated', [candidate], id=3))])
+    def test_update_succeeds_when_event_item_has_same_id(
+            self, event_item, updated_event_item):
         self.repository.save(event_item)
-        event_item.name = 'updated_name'
-        self.repository.save(event_item)
+        self.repository.save(updated_event_item)
         assert get_public_vars(
-            self.repository.event_items[3]) == get_public_vars(event_item)
+            self.repository.event_items[3]) == get_public_vars(
+                updated_event_item)
 
 
 class TestDelete:
 
-    def setup_method(self, method):
+    def setup_method(self):
         self.repository = EventItemRepository()
         self.repository.event_items[1] = [
             EventItem('test_name', [candidate], id=1)
         ]
 
+    @pytest.fixture()
+    def regist_event_item_to_event_id_map(self):
+        event_id = 1
+        event_item = EventItem('test_name', [candidate], id=1)
+        self.repository.event_id_to_event_item_map[event_id] = [event_item]
+
     @pytest.mark.parametrize('event_item',
                              [EventItem('test_name', [candidate], id=1)])
     def test_succeeds_when_target_event_item_exists(self, event_item):
         self.repository.delete(event_item)
+
+    @pytest.mark.parametrize('event_item, event_id',
+                             [(EventItem('test_name', [candidate], id=1), 1)])
+    def test_succeeds_when_target_event_item_registerd_in_event_id_map(
+            self, event_item, event_id, regist_event_item_to_event_id_map):
+        self.repository.delete(event_item)
+        for registed_event_items in self.repository.event_id_to_event_item_map.values(
+        ):
+            for registed_event_item in registed_event_items:
+                assert event_item.id == registed_event_item.id
 
     @pytest.mark.parametrize('event_item',
                              [EventItem('test_name2', [candidate], id=2)])
@@ -86,18 +104,16 @@ class TestFindByEventId:
     @classmethod
     def setup_class(cls):
         cls.repository = EventItemRepository()
-        cls.added_event_items = []
+        cls.test_event_items = [
+            EventItem('test_name', [candidate], id=i) for i in range(1, 5)
+        ]
         event_id = 1
-        cls.repository.event_id_to_event_item_map[event_id] = []
-        for i in range(1, 5):
-            event_item = EventItem('test_name', [candidate], id=i)
-            cls.repository.event_id_to_event_item_map[event_id].append(
-                event_item)
-            cls.added_event_items.append(event_item)
+        cls.repository.event_id_to_event_item_map[
+            event_id] = cls.test_event_items
 
     def test_return_found_event_items_when_target_event_id_exists(self):
         assert set(self.repository.find_by_event_id(1)) == set(
-            self.added_event_items)
+            self.test_event_items)
 
     def test_return_none_when_target_event_item_does_not_exist(self):
         assert self.repository.find_by_event_id(2) is None

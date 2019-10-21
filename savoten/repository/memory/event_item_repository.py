@@ -1,7 +1,7 @@
-from savoten import domain
+from savoten.domain import EventItemRepositoryInterface
 
 
-class EventItemRepository(domain.EventItemRepositoryInterface):
+class EventItemRepository(EventItemRepositoryInterface):
 
     def __init__(self):
         self.event_items = {}
@@ -34,9 +34,10 @@ class EventItemRepository(domain.EventItemRepositoryInterface):
 
         # event_itemとの所属関係の処理
         # on_memoryからDB仕様にする時に書き換えが必要
-        for event_items in self.event_id_to_event_item_map:
-            if event_item in event_items:
-                event_items.remove(event_item)
+        for registed_event_items in self.event_id_to_event_item_map.values():
+            for registed_event_item in registed_event_items:
+                if event_item.id == registed_event_item.id:
+                    registed_event_items.remove(registed_event_item)
 
     def find_by_id(self, id):
         return self.event_items.get(id, None)

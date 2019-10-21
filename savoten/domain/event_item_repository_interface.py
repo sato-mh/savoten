@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class EventItemRepositoryInterface(ABC):
 
     @abstractmethod
-    def save(self, event_item):
+    def save(self, event_item, event_id):
         raise NotImplementedError
 
     @abstractmethod
