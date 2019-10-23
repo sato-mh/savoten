@@ -1,7 +1,7 @@
-from savoten import domain
+from savoten.domain import CandidateRepositoryInterface
 
 
-class CandidateRepository(domain.CandidateRepositoryInterface):
+class CandidateRepository(CandidateRepositoryInterface):
 
     def __init__(self):
         self.candidates = {}
