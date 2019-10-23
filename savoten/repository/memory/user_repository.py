@@ -1,7 +1,7 @@
-from savoten import domain
+from savoten.domain import User, UserRepositoryInterface
 
 
-class UserRepository(domain.UserRepositoryInterface):
+class UserRepository(UserRepositoryInterface):
 
     def __init__(self):
         self.users = {}
