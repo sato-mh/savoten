@@ -1,20 +1,18 @@
 from abc import ABC, abstractmethod
 
-from .user import User
-
 
 class UserRepositoryInterface(ABC):
 
     @abstractmethod
-    def save(self, user: User):
+    def save(self, user):
         raise NotImplementedError
 
     @abstractmethod
-    def delete(self, user: User):
+    def delete(self, user):
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_id(self, id: int):
+    def find_by_id(self, id):
         raise NotImplementedError
 
     @abstractmethod
