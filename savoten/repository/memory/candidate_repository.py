@@ -36,9 +36,10 @@ class CandidateRepository(CandidateRepositoryInterface):
 
         # event_itemとの所属関係の処理
         # on_memoryからDB仕様にする時に書き換えが必要
-        for candidates in self.event_item_id_to_candidate_map:
-            if candidate in candidates:
-                candidates.remove(candidate)
+        for registed_candidates in self.event_item_id_to_candidate_map.values():
+            for registed_candidate in registed_candidates:
+                if candidate.id == registed_candidate.id:
+                    registed_candidates.remove(registed_candidate)
 
     def find_by_id(self, id):
         return self.candidates.get(id, None)

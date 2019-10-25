@@ -44,14 +44,31 @@ class TestSave:
 
 class TestDelete:
 
-    @classmethod
-    def setup_class(cls):
-        cls.repository = CandidateRepository()
-        cls.repository.candidates[1] = Candidate(user, id=1)
+    def setup_method(self):
+        self.repository = CandidateRepository()
+        self.repository.candidates[1] = Candidate(user, id=1)
+
+    @pytest.fixture()
+    def regist_candidate_to_event_item_id_map(self):
+        event_item_id = 1
+        candidate = Candidate(user, id=1)
+        self.repository.event_item_id_to_candidate_map[event_item_id] = [
+            candidate
+        ]
 
     @pytest.mark.parametrize('candidate', [Candidate(user, id=1)])
     def test_succeeds_when_target_candidate_exists(self, candidate):
         self.repository.delete(candidate)
+
+    @pytest.mark.parametrize('candidate, event_item_id',
+                             [(Candidate(user, id=1), 1)])
+    def test_succeeds_when_target_candidate_registerd_in_event_item_id_map(
+            self, candidate, event_item_id,
+            regist_candidate_to_event_item_id_map):
+        self.repository.delete(candidate)
+        for registed_candidates in self.repository.event_item_id_to_candidate_map.values():
+            for registed_candidate in registed_candidates:
+                assert candidate.id == registed_candidate.id
 
     @pytest.mark.parametrize('candidate', [Candidate(user, id=100)])
     def test_return_value_error_when_target_candidate_does_not_exist(
