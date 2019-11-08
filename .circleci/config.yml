@@ -1,22 +1,20 @@
 version: 2
 jobs:
   build:
-    machine: true
+    docker:
+      - image: python:3.7.4-stretch
+    environment:
+      PYTHONPATH: /root/savoten
+      TZ: /usr/share/zoneinfo/Asia/Tokyo
+    working_directory: /root/savoten
     steps:
       - checkout
       - run:
-          name: Create .env
+          name: Install pipenv
           command: |
-            cat << EOF >> .env
-            UID=$(id -u)
-            GID=$(id -g)
-            EOF
+              pip install --upgrade pip && \
+              pip install pipenv
+              pipenv install -d --skip-lock
       - run:
-          name: Build Docker Image
-          command: docker-compose build
-      - run:
-          name: Docker-compose Up
-          command: docker-compose up -d
-      - run:
-          name: Run tests
-          command: docker-compose exec app pipenv run scripts/run_tests
+          name: Run test
+          command: pipenv run scripts/run_tests
