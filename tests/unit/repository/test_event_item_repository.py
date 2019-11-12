@@ -61,8 +61,8 @@ class TestDelete:
     def test_succeeds_when_target_event_item_registerd_in_event_id_map(
             self, event_item, event_id, regist_event_item_to_event_id_map):
         self.repository.delete(event_item)
-        for registed_event_items in self.repository.event_id_to_event_item_map.values(
-        ):
+        for registed_event_items \
+                in self.repository.event_id_to_event_item_map.values():
             for registed_event_item in registed_event_items:
                 assert event_item.id == registed_event_item.id
 
