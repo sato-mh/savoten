@@ -22,20 +22,19 @@ class TestSave:
     @pytest.mark.parametrize('event_item',
                              [EventItem('test_name', [candidate])])
     def test_succeeds_when_event_item_has_no_id(self, event_item):
-        self.repository.save(event_item)
-        assert get_public_vars(
-            self.repository.event_items[1]) == get_public_vars(event_item)
+        saved_event_item = self.repository.save(event_item)
+        assert get_public_vars(self.repository.event_items[
+            saved_event_item.id]) == get_public_vars(event_item)
 
-    @pytest.mark.parametrize('event_item, updated_event_item',
-                             [(EventItem('test_name', [candidate], id=3),
-                               EventItem('updated', [candidate], id=3))])
+    @pytest.mark.parametrize('event_item, updated_event_item', [(EventItem(
+        'test_name', [candidate]), EventItem('updated', [candidate]))])
     def test_update_succeeds_when_event_item_has_same_id(
             self, event_item, updated_event_item):
-        self.repository.save(event_item)
+        saved_event_item = self.repository.save(event_item)
+        updated_event_item.id = saved_event_item.id
         self.repository.save(updated_event_item)
-        assert get_public_vars(
-            self.repository.event_items[3]) == get_public_vars(
-                updated_event_item)
+        assert get_public_vars(self.repository.event_items[
+            saved_event_item.id]) == get_public_vars(updated_event_item)
 
 
 class TestDelete:
