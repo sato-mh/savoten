@@ -18,19 +18,21 @@ class TestSave:
 
     @pytest.mark.parametrize('user', [User(**user_args)])
     def test_succeeds_when_user_has_no_id(self, user):
-        self.repository.save(user)
+        saved_user = self.repository.save(user)
         assert get_public_vars(
-            self.repository.users[1]) == get_public_vars(user)
+            self.repository.users[saved_user.id]) == get_public_vars(user)
 
-    @pytest.mark.parametrize('user, updated_user', [
-        (User(**user_args, id=1),
-         User(name='updated', email='test_user@test.com', permission=100, id=1))
-    ])
+    @pytest.mark.parametrize(
+        'user, updated_user',
+        [(User(**user_args),
+          User(name='updated', email='test_user@test.com', permission=100))])
     def test_update_succeeds_when_user_has_same_id(self, user, updated_user):
-        self.repository.save(user)
+        saved_user = self.repository.save(user)
+        user_id = saved_user.id
+        updated_user.id = user_id
         self.repository.save(updated_user)
         assert get_public_vars(
-            self.repository.users[1]) == get_public_vars(updated_user)
+            self.repository.users[user_id]) == get_public_vars(updated_user)
 
 
 class TestDelete:
