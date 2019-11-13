@@ -1,4 +1,3 @@
-# flake8: noqa F401
 from .candidate import Candidate
 from .candidate_repository_interface import CandidateRepositoryInterface
 from .event import Event
