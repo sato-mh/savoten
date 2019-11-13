@@ -39,7 +39,7 @@ class TestSave:
                                                     event_item_id):
         self.repository.save(candidate, event_item_id)
         assert set(self.repository.event_item_id_to_candidate_map[event_item_id]
-                  ) == set([candidate])
+                  ) == set([candidate])  # noqa: E124
 
 
 class TestDelete:
