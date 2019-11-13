@@ -19,19 +19,22 @@ class TestSave:
 
     @pytest.mark.parametrize('candidate', [Candidate(user)])
     def test_succeeds_when_candidate_has_no_id(self, candidate):
-        self.repository.save(candidate)
-        assert get_public_vars(
-            self.repository.candidates[1]) == get_public_vars(candidate)
+        saved_candidate = self.repository.save(candidate)
+        assert get_public_vars(self.repository.candidates[
+            saved_candidate.id]) == get_public_vars(candidate)
 
     @pytest.mark.parametrize(
         'candidate, updated_candidate',
-        [(Candidate(user), Candidate(user, id=1, description='updated'))])
+        [(Candidate(user), Candidate(user, description='updated'))])
     def test_update_succeeds_when_candidate_has_id(self, candidate,
                                                    updated_candidate):
-        self.repository.save(candidate)
+        saved_candidate = self.repository.save(candidate)
+        candidate_id = saved_candidate.id
+        updated_candidate.id = candidate_id
         self.repository.save(updated_candidate)
         assert get_public_vars(
-            self.repository.candidates[1]) == get_public_vars(updated_candidate)
+            self.repository.candidates[candidate_id]) == get_public_vars(
+                updated_candidate)
 
     @pytest.mark.parametrize('candidate, event_item_id',
                              [(Candidate(user, id=1), 1)])
