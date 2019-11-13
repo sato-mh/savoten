@@ -37,7 +37,7 @@ class TestGetEvents:
     @pytest.mark.parametrize(
         'uri, expect_status_code',
         [('/api/v1/events', 200)  # success_case
-        ])
+        ])  # noqa: E124
     def test_success_case(self, test_app, uri, expect_status_code):
         response = test_app.get(uri)
         assert (response.status_code == expect_status_code)
