@@ -1,4 +1,3 @@
-# flake8: noqa F401
 from .candidate import Candidate
 from .event import Event
 from .event_item import EventItem
