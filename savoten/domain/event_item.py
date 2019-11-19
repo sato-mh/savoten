@@ -25,7 +25,7 @@ class EventItem:
 
     @candidates.setter
     def candidates(self, candidates):
-        if not (isinstance(candidates, list) and
+        if not (isinstance(candidates, list) and  # noqa: W504
                 all([isinstance(c, Candidate) for c in candidates])):
             raise TypeError('items is required List[Candidate]. not {}.'.format(
                 type(candidates)))
