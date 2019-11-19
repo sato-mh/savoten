@@ -1,1 +1,1 @@
-from .event_repository import EventRepository  # noqa: F401
+from .event_item_repository import EventItemRepository
