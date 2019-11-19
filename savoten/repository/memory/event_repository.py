@@ -9,7 +9,7 @@ class EventRepository(domain.EventRepositoryInterface):
 
     def save(self, event):
         if event.id is None:
-            event.id = self.get_new_id()
+            event.id = self._get_new_id()
         self.events[event.id] = event
         return event
 
@@ -25,6 +25,6 @@ class EventRepository(domain.EventRepositoryInterface):
     def find_all(self):
         return self.events
 
-    def get_new_id(self):
+    def _get_new_id(self):
         self.id = self.id + 1
         return self.id
