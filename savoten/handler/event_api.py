@@ -7,7 +7,7 @@ from savoten.logger import get_logger
 
 logger = get_logger(__name__)
 
-event_repository = repository.EventRepository()
+event_repository = repository.event_repository.EventRepository()
 
 
 class EventAPI(MethodView):
