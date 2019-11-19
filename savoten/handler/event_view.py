@@ -6,6 +6,11 @@ event_view = Blueprint('event_view',
                        static_folder='static')
 
 
+@event_view.route('/events/<int:id>', methods=['GET'])
+def get_event_page(id):
+    return render_template('event.html')
+
+
 @event_view.route('/events', methods=['GET'])
 def get_events_page():
     return render_template('get_events.html')
