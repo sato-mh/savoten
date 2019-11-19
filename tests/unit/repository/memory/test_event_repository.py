@@ -37,7 +37,6 @@ class TestSave:
                                                      updated_event):
         saved_event = self.repository.save(event)
         event_id = saved_event.id
-        print(event_id)
         updated_event.id = event_id
         self.repository.save(updated_event)
         assert get_public_vars(
