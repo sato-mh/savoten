@@ -16,9 +16,5 @@ class EventRepositoryInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_by_event_id(self, event_id):
-        raise NotImplementedError
-
-    @abstractmethod
     def find_all(self):
         raise NotImplementedError

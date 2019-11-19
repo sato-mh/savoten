@@ -26,19 +26,18 @@ class TestInit:
                                  'max_choice': 3,
                                  'min_choice': 4,
                                  'id': 5
-                             }),
-                              ({
-                                  'name': 'name',
-                                  'candidates': [candidate]
-                              }, {
-                                  'name': 'name',
-                                  'candidates': [candidate],
-                                  'description': None,
-                                  'seats': 1,
-                                  'max_choice': 1,
-                                  'min_choice': 1,
-                                  'id': None
-                              })])
+                             }), ({
+                                 'name': 'name',
+                                 'candidates': [candidate]
+                             }, {
+                                 'name': 'name',
+                                 'candidates': [candidate],
+                                 'description': None,
+                                 'seats': 1,
+                                 'max_choice': 1,
+                                 'min_choice': 1,
+                                 'id': None
+                             })])
     def test_succeeds_initialization_with_valid_args(self, valid_args,
                                                      expected):
         event_item = EventItem(**valid_args)

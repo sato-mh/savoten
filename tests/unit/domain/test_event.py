@@ -38,22 +38,21 @@ class TestInit:
         'created_at': now,
         'updated_at': one_day_later,
         'deleted_at': one_day_later,
-    }),
-                                                      ({
-                                                          'name': 'name',
-                                                          'items': [event_item],
-                                                          'period': period,
-                                                      }, {
-                                                          'id': None,
-                                                          'name': 'name',
-                                                          'items': [event_item],
-                                                          'period': period,
-                                                          'description': None,
-                                                          'anonymous': False,
-                                                          'created_at': None,
-                                                          'updated_at': None,
-                                                          'deleted_at': None,
-                                                      })])
+    }), ({
+        'name': 'name',
+        'items': [event_item],
+        'period': period,
+    }, {
+        'id': None,
+        'name': 'name',
+        'items': [event_item],
+        'period': period,
+        'description': None,
+        'anonymous': False,
+        'created_at': None,
+        'updated_at': None,
+        'deleted_at': None,
+    })])
     def test_succeeds_initialization_with_valid_args(self, valid_args,
                                                      expected):
         event = Event(**valid_args)
