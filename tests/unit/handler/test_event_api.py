@@ -19,39 +19,24 @@ event_args = {
 }
 
 
-@pytest.fixture()
-def test_app():
-    return app.test_client()
-
-
 class TestGetEvents:
 
     def setup_method(self):
-        event = domain.Event(**event_args, id=1)
-        event_repository.save(event)
+        self.client = app.test_client()
 
-    def teardown_method(self, test_app):
-        event = domain.Event(**event_args, id=1)
-        event_repository.delete(event)
-
-    @pytest.mark.parametrize(
-        'uri, expect_status_code',
-        [('/api/v1/events', 200)]
-    )
-    def test_success_case(self, test_app, uri, expect_status_code):
-        response = test_app.get(uri)
+    @pytest.mark.parametrize('uri, expect_status_code',
+                             [('/api/v1/events', 200)])
+    def test_success_case(self, uri, expect_status_code):
+        response = self.client.get(uri)
         assert (response.status_code == expect_status_code)
 
 
 class TestFindEventById:
 
     def setup_method(self):
+        self.client = app.test_client()
         event = domain.Event(**event_args, id=1)
         event_repository.save(event)
-
-    def teardown_method(self):
-        event = domain.Event(**event_args, id=1)
-        event_repository.delete(event)
 
     @pytest.mark.parametrize(
         'uri, expect_status_code',
@@ -59,12 +44,15 @@ class TestFindEventById:
             ('/api/v1/events/1', 200),  # success case
             ('/api/v1/events/999', 404)  # fail case (Target ID does not exist.)
         ])
-    def test_find_event_by_id(self, test_app, uri, expect_status_code):
-        response = test_app.get(uri)
+    def test_find_event_by_id(self, uri, expect_status_code):
+        response = self.client.get(uri)
         assert (response.status_code == expect_status_code)
 
 
 class TestCreateEvent:
+
+    def setup_method(self):
+        self.client = app.test_client()
 
     @pytest.fixture(
         scope='function',
@@ -94,11 +82,11 @@ class TestCreateEvent:
     def test_case(self, request):
         return request.param
 
-    def test_create_event(self, test_app, test_case):
+    def test_create_event(self, test_case):
         uri = test_case['uri']
         expect = test_case['expect']
         post_params = test_case['post_params']
-        response = test_app.post(uri,
-                                 data=json.dumps(post_params),
-                                 content_type='application/json')
+        response = self.client.post(uri,
+                                    data=json.dumps(post_params),
+                                    content_type='application/json')
         assert response.status_code == expect
