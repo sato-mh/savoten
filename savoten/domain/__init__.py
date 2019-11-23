@@ -5,3 +5,4 @@ from .event_item_repository_interface import EventItemRepositoryInterface
 from .event_repository_interface import EventRepositoryInterface
 from .period import Period
 from .user import User
+from .user_repository_interface import UserRepositoryInterface
