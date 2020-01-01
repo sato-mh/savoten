@@ -28,7 +28,7 @@ candidate_args = {'id': 1, 'user': user, 'description': 'candidate_description'}
 candidate = Candidate(**candidate_args)
 expected_candidate_dict = {
     'id': 1,
-    '_user': expected_user_dict,
+    'user': expected_user_dict,
     'description': 'candidate_description'
 }
 
@@ -36,7 +36,7 @@ start = datetime.datetime.now()
 end = start + datetime.timedelta(hours=1)
 period_args = {'start': start, 'end': end}
 period = Period(**period_args)
-isoformatted_period = {'_start': start.isoformat(), '_end': end.isoformat()}
+isoformatted_period = {'start': start.isoformat(), 'end': end.isoformat()}
 
 event_item_args = {
     'id': 1,
@@ -48,7 +48,7 @@ event_item = EventItem(**event_item_args)
 expected_event_item_dict = {
     'id': 1,
     'name': 'event_item_name',
-    '_candidates': [expected_candidate_dict],
+    'candidates': [expected_candidate_dict],
     'seats': 1,
     'max_choice': 1,
     'min_choice': 1,
@@ -66,8 +66,8 @@ event = Event(**event_args)
 expected_event_dict = {
     'id': 1,
     'name': 'event_name',
-    '_items': [expected_event_item_dict],
-    '_period': isoformatted_period,
+    'items': [expected_event_item_dict],
+    'period': isoformatted_period,
     'description': 'event_description'
 }
 
