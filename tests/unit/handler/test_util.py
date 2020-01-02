@@ -60,7 +60,11 @@ event_args = {
     'name': 'event_name',
     'items': [event_item],
     'period': period,
-    'description': 'event_description'
+    'description': 'event_description',
+    'anonymous': False,
+    'created_at': None,
+    'updated_at': None,
+    'deleted_at': None
 }
 event = Event(**event_args)
 expected_event_dict = {
@@ -68,7 +72,11 @@ expected_event_dict = {
     'name': 'event_name',
     'items': [expected_event_item_dict],
     'period': isoformatted_period,
-    'description': 'event_description'
+    'description': 'event_description',
+    'anonymous': False,
+    'created_at': None,
+    'updated_at': None,
+    'deleted_at': None
 }
 
 domains_objects = {
@@ -90,5 +98,4 @@ def test_succeeds_when_jsonify_domains(domain_object, expected):
         response = jsonify(domain_object)
     # json化したデータが正しいかの判定のためにjson.loadsしてdictに格納し直す
     parsed_response = json.loads(response.data)
-    for key in expected:
-        assert parsed_response[key] == expected[key]
+    assert parsed_response == expected
