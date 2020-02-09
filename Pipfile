@@ -7,6 +7,8 @@ name = "pypi"
 filelock = "*"
 flask = "*"
 python-dateutil = "*"
+sqlalchemy = "*"
+pymysql = "*"
 
 [dev-packages]
 isort = "*"
