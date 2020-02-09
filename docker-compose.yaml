@@ -11,14 +11,14 @@ services:
     env_file: .env
     user: ${UID}:${GID}
     command: tail -f /dev/null
-    db:
-      image: mariadb:10.4.11-bionic
-      volumes:
-        - "./mariadb:/db"
-      environment:
-        MYSQL_ROOT_PASSWORD: password
-        MYSQL_USER: python
-        MYSQL_PASSWORD: python
-        MYSQL_DATABASE: SAVOTEN
-      ports:
-        - "3306:3306"
+  db:
+    image: mariadb:10.4.11-bionic
+    volumes:
+      - "./mariadb:/db"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: python
+      MYSQL_PASSWORD: python
+      MYSQL_DATABASE: SAVOTEN
+    ports:
+      - "3306:3306"
