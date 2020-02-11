@@ -19,8 +19,8 @@ jobs:
           name: Docker-compose Up
           command: docker-compose up -d
       - run:
-        name: Docker-compose debug
-        command: docker-compose exec app ping -c 4 db 
+          name: Docker-compose debug
+          command: docker-compose exec app ping -c 4 db
       - run:
           name: Run tests
           command: docker-compose exec app pipenv run scripts/run_tests
