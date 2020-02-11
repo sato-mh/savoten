@@ -24,7 +24,7 @@ class UserRepository(UserRepositoryInterface):
 
     def __init__(self):
 
-        url = 'mysql+pymysql://python:python@SAVOTEN'
+        url = 'mysql+pymysql://python:python@db/SAVOTEN'
         engine = create_engine(url, echo=False)
         # Baseクラスを継承させて作ったクラスのテーブルが作成される
         Base.metadata.create_all(engine)
